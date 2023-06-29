@@ -16,7 +16,7 @@ import '@config/ReactotronConfig'
 function App() {
   return (
     <NavigationContainer>
-      <StatusBar />
+      <StatusBar backgroundColor={'#fedc3d'} />
       <Routes />
     </NavigationContainer>
   )
