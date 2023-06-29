@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "919576616580",
+    "project_id": "guia-de-bolso-645d9",
+    "storage_bucket": "guia-de-bolso-645d9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:919576616580:android:64b7ea0ed16f6bb57f2cd1",
+        "android_client_info": {
+          "package_name": "com.guia_de_bolso"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "919576616580-tgr871fv7i50h9820v14otq43ths42fo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyConoHZ0mlrqjEP_pRqzRDe0EgkXFEP85Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "919576616580-tgr871fv7i50h9820v14otq43ths42fo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
