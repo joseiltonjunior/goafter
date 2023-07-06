@@ -1,11 +1,11 @@
 import AnimatedLottieView from 'lottie-react-native'
 import splashJson from '@assets/splash.json'
-import { Dimensions, View } from 'react-native'
+import { Dimensions, Text, View } from 'react-native'
 import { useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProps } from '@routes/routes'
 
-const size = Dimensions.get('window').width * 0.8
+const size = Dimensions.get('window').width * 1
 
 export function SplashScreen() {
   const navigation = useNavigation<StackNavigationProps>()
@@ -20,7 +20,7 @@ export function SplashScreen() {
   }, [navigation])
 
   return (
-    <View className="flex-1 items-center justify-center bg-yellow-500">
+    <View className="flex-1 items-center justify-center bg-gray-950">
       <AnimatedLottieView
         source={splashJson}
         autoPlay
@@ -28,6 +28,9 @@ export function SplashScreen() {
         resizeMode="contain"
         style={{ width: size, height: size }}
       />
+      <Text className="text-gray-100 font-bold text-base">
+        Buscando os melhores Afters...
+      </Text>
     </View>
   )
 }

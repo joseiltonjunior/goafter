@@ -4,6 +4,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        red: {
+          500: '#e3342f',
+        },
         yellow: {
           500: '#fedc3d',
         },
@@ -14,6 +17,9 @@ module.exports = {
         },
         orange: {
           500: '#FFBA00',
+        },
+        blue: {
+          500: '#38B6FF',
         },
       },
       fontFamily: {
