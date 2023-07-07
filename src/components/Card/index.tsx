@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 import { ReduxProps } from '@storage/index'
 import { FavoriteProps } from '@storage/modules/favorites/types'
 import { ImageBackground, Text, TouchableOpacity, View } from 'react-native'
+import { VerifyFavorite } from '@utils/verifyFavorite'
 
 interface CardProps {
   name: string
@@ -45,7 +46,7 @@ export function Card({ name, pic, stars, onAction }: CardProps) {
                     name="heart"
                     size={12}
                     color={
-                      favorites.find((item) => item.name === name)
+                      VerifyFavorite({ favorites, name })
                         ? '#e3342f'
                         : '#e2e8f0'
                     }

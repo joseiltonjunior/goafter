@@ -22,8 +22,8 @@ export function Item({ image, title, small }: itemProps) {
         className="h-14 items-center justify-center"
       >
         <Text
-          className={`font-medium text-lg text-gray-100 bg-gray-500/60 px-1 rounded ${
-            small && 'text-sm'
+          className={`font-medium text-base text-gray-100 bg-gray-500/60 px-1 rounded ${
+            small && 'text-xs'
           }`}
         >
           {title}

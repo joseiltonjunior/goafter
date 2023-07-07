@@ -29,7 +29,7 @@ export function Home() {
           <Categories />
           <HeaderSection
             style={{ marginBottom: 8, marginTop: 24 }}
-            title="Favoritos"
+            title="Meus Favoritos"
             viewMore={() => console.log('ok')}
           />
           <RoundedCarousel data={favorites} />
@@ -43,6 +43,13 @@ export function Home() {
 
           <HeaderSection
             style={{ marginBottom: 8, marginTop: 16 }}
+            title="Olinda"
+            viewMore={() => console.log('ok')}
+          />
+          <BoxCarousel data={Afters} />
+
+          <HeaderSection
+            style={{ marginBottom: 8, marginTop: 16 }}
             title="Recife"
             viewMore={() => console.log('ok')}
           />
@@ -50,7 +57,7 @@ export function Home() {
 
           <HeaderSection
             style={{ marginBottom: 8, marginTop: 16 }}
-            title="Olinda"
+            title="Jaboatão dos Guararapes"
             viewMore={() => console.log('ok')}
           />
           <BoxCarousel data={Afters} />

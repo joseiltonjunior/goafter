@@ -12,7 +12,14 @@ export function SplashScreen() {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      navigation.navigate('Home')
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: 'Home',
+          },
+        ],
+      })
     }, 3000)
     return () => {
       clearTimeout(timeout)
