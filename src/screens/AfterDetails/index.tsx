@@ -98,7 +98,7 @@ export function AfterDetails() {
               </TouchableOpacity>
             </View>
 
-            <View className="mt-auto">
+            <View className="mt-auto items-start justify-center">
               <FlatList
                 scrollEnabled={false}
                 numColumns={5}
@@ -111,7 +111,9 @@ export function AfterDetails() {
                   />
                 )}
               />
-              <Text className="text-lg font-bold text-white ">{data.name}</Text>
+              <Text className="text-lg font-bold text-white bg-gray-950/50 px-1 rounded-md">
+                {data.name}
+              </Text>
             </View>
           </ImageBackground>
           <View className="p-4">

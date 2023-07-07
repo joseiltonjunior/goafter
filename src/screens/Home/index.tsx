@@ -9,8 +9,8 @@ import { ReduxProps } from '@storage/index'
 import { FavoriteProps } from '@storage/modules/favorites/types'
 import { Categories } from '@components/Categories'
 import { HeaderSection } from '@components/HeaderSection'
-import { RouteParamsProps } from '@routes/routes'
-import { useRoute } from '@react-navigation/native'
+import { RouteParamsProps, StackNavigationProps } from '@routes/routes'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
 export function Home() {
   const favorites = useSelector<ReduxProps, FavoriteProps[]>(
@@ -20,6 +20,8 @@ export function Home() {
   const {
     params: { data },
   } = useRoute<RouteParamsProps<'Home'>>()
+
+  const navigation = useNavigation<StackNavigationProps>()
 
   const [afters, setAfters] = useState<FavoriteProps[]>()
 
@@ -47,8 +49,8 @@ export function Home() {
             <>
               <HeaderSection
                 style={{ marginBottom: 8, marginTop: 24 }}
-                title="Meus Favoritos"
-                viewMore={() => console.log('ok')}
+                title="Meus favoritos"
+                viewMore={() => navigation.navigate('Favorites')}
               />
               <RoundedCarousel data={favorites} />
             </>
