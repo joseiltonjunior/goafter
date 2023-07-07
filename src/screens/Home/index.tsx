@@ -21,20 +21,38 @@ export function Home() {
     <>
       <ScrollView className="bg-gray-950">
         <View className="p-4">
+          <HeaderSection
+            style={{ marginBottom: 8 }}
+            title="Categorias"
+            viewMore={() => console.log('ok')}
+          />
           <Categories />
-          <HeaderSection title="Favoritos" viewMore={() => console.log('ok')} />
+          <HeaderSection
+            style={{ marginBottom: 8, marginTop: 24 }}
+            title="Favoritos"
+            viewMore={() => console.log('ok')}
+          />
           <RoundedCarousel data={favorites} />
 
           <HeaderSection
+            style={{ marginBottom: 8, marginTop: 24 }}
             title="Mais indicados"
             viewMore={() => console.log('ok')}
           />
           <BoxCarousel data={Afters} />
 
-          <HeaderSection title="Recife" viewMore={() => console.log('ok')} />
+          <HeaderSection
+            style={{ marginBottom: 8, marginTop: 16 }}
+            title="Recife"
+            viewMore={() => console.log('ok')}
+          />
           <BoxCarousel data={Afters} />
 
-          <HeaderSection title="Olinda" viewMore={() => console.log('ok')} />
+          <HeaderSection
+            style={{ marginBottom: 8, marginTop: 16 }}
+            title="Olinda"
+            viewMore={() => console.log('ok')}
+          />
           <BoxCarousel data={Afters} />
         </View>
       </ScrollView>

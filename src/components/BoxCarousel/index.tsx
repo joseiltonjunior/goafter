@@ -1,12 +1,16 @@
 import Carousel from 'react-native-reanimated-carousel'
 import { Card } from '../Card'
 import { FavoriteProps } from '@storage/modules/favorites/types'
+import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProps } from '@routes/routes'
 
 interface SectionProps {
   data: FavoriteProps[]
 }
 
 export function BoxCarousel({ data }: SectionProps) {
+  const navigation = useNavigation<StackNavigationProps>()
+
   return (
     <Carousel
       loop={false}
@@ -21,7 +25,7 @@ export function BoxCarousel({ data }: SectionProps) {
           name={item.name}
           pic={item.pic}
           stars={item.stars}
-          action={() => {}}
+          onAction={() => navigation.navigate('AfterDetails', { data: item })}
         />
       )}
     />
