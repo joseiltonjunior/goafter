@@ -1,10 +1,10 @@
 export interface FavoriteProps {
-  local: string
+  locale: string
   name: string
   hour: string
   payment: string
   stars: number
-  pic: string
+  picUrl: string
   phone: string
   description: string
   indicator: number

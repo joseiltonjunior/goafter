@@ -11,17 +11,13 @@ export function Menu() {
       <ButtonMenu
         icon="home"
         title="Início"
-        onAction={() => navigation.navigate('Home')}
+        onAction={() => navigation.navigate('Home', {})}
       />
-      <ButtonMenu
-        icon="search"
-        title="Busca"
-        onAction={() => navigation.navigate('Home')}
-      />
+      <ButtonMenu icon="search" title="Busca" onAction={() => {}} />
       <ButtonMenu
         icon="heart"
         title="Favoritos"
-        onAction={() => navigation.navigate('Home')}
+        onAction={() => navigation.navigate('Favorites')}
       />
     </View>
   )

@@ -9,7 +9,6 @@ import {
 } from '@storage/modules/favorites/actions'
 import { FavoriteProps } from '@storage/modules/favorites/types'
 import { VerifyFavorite } from '@utils/verifyFavorite'
-import { useEffect } from 'react'
 
 import {
   FlatList,
@@ -46,16 +45,12 @@ export function AfterDetails() {
   }
 
   function handleFormatIndicator(indicator: number) {
-    if (indicator && indicator <= 5) return 'Pouco recomendado'
-    if (indicator > 5 && indicator <= 10) return 'Recomendado'
-    if (indicator > 10) return 'Super recomendado'
+    if (indicator && indicator <= 10) return 'Pouco recomendado'
+    if (indicator > 10 && indicator <= 20) return 'Recomendado'
+    if (indicator > 20) return 'Super recomendado'
 
     return 'Sem recomendações'
   }
-
-  useEffect(() => {
-    console.log(VerifyFavorite({ favorites, name: data.name }))
-  }, [data.name, favorites])
 
   return (
     <>
@@ -64,7 +59,7 @@ export function AfterDetails() {
           <ImageBackground
             className="h-60 p-4"
             source={{
-              uri: `${data.pic}`,
+              uri: `${data.picUrl}`,
             }}
             alt="after pic"
           >
@@ -144,7 +139,7 @@ export function AfterDetails() {
             />
             <Description
               title="Localização"
-              value={data.local}
+              value={data.locale}
               style={{ marginTop: 16 }}
             />
           </View>

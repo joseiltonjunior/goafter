@@ -23,7 +23,7 @@ export function BoxCarousel({ data }: SectionProps) {
       renderItem={({ item }) => (
         <Card
           name={item.name}
-          pic={item.pic}
+          pic={item.picUrl}
           stars={item.stars}
           onAction={() => navigation.navigate('AfterDetails', { data: item })}
         />
