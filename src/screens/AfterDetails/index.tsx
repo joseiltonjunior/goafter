@@ -11,16 +11,20 @@ import { FavoriteProps } from '@storage/modules/favorites/types'
 import { VerifyFavorite } from '@utils/verifyFavorite'
 
 import {
-  FlatList,
+  Linking,
+  // FlatList,
   ImageBackground,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native'
+
 import { useDispatch, useSelector } from 'react-redux'
 import colors from 'tailwindcss/colors'
 import { Description } from './Description'
+import { Map } from './Map'
+import { Schedules } from './Schedules'
 
 export function AfterDetails() {
   const {
@@ -52,12 +56,30 @@ export function AfterDetails() {
     return 'Sem recomendações'
   }
 
+  function handleOpenWhatsApp(phone: string) {
+    const phoneNumber = `+55${phone}`
+
+    const url = `whatsapp://send?phone=${phoneNumber}`
+
+    Linking.canOpenURL(url)
+      .then((supported) => {
+        if (supported) {
+          return Linking.openURL(url)
+        } else {
+          console.log('Não é possível abrir o WhatsApp')
+        }
+      })
+      .catch((err) => console.error('Erro ao abrir o WhatsApp:', err))
+  }
+
+  console.log(data)
+
   return (
     <>
       <ScrollView className="bg-gray-950">
         <View>
           <ImageBackground
-            className="h-60 p-4"
+            className="h-72 p-4 pb-12"
             source={{
               uri: `${data.picUrl}`,
             }}
@@ -97,53 +119,67 @@ export function AfterDetails() {
                 />
               </TouchableOpacity>
             </View>
-
-            <View className="mt-auto items-start justify-center">
-              <FlatList
-                scrollEnabled={false}
-                numColumns={5}
-                data={Array.from({ length: data.stars }, (v, k) => k)}
-                renderItem={() => (
-                  <IconCustom
-                    name="star"
-                    color={colors.yellow[500]}
-                    size={16}
-                  />
-                )}
-              />
-              <Text className="text-lg font-bold text-white bg-gray-950/50 px-1 rounded-md">
-                {data.name}
-              </Text>
-            </View>
           </ImageBackground>
-          <View className="p-4">
-            <Description title="Descrição" value={data.description} />
+          <View className="p-4  rounded-t-3xl bg-gray-950 -mt-8 overflow-hidden">
+            <View className="flex-row items-center justify-between">
+              <Text className="text-xl font-bold text-white">{data.name}</Text>
+              <View className="flex-row items-center">
+                <IconCustom name="star" color={colors.yellow[500]} size={16} />
+                <Text className="text-md font-bold text-white px-0.5">
+                  {data.stars}
+                </Text>
+                <Text className="text-md font-light text-gray-400">
+                  ({data.indicator})
+                </Text>
+              </View>
+            </View>
+
+            <Text className="text-md font-normal text-gray-400">
+              {data.description}
+            </Text>
+
             <Description
-              title="Horário de Funcionamento"
-              value={data.hour}
-              style={{ marginTop: 16 }}
-            />
-            <Description
-              title="Recomendação"
+              title="Avaliação dos clientes"
               value={handleFormatIndicator(data.indicator)}
               style={{ marginTop: 16 }}
             />
 
-            <Description
-              title="Contato"
-              value={data.phone}
-              style={{ marginTop: 16 }}
-            />
+            <Schedules data={data.hour} />
+
+            <View className="flex-row justify-between items-center mt-4">
+              <View>
+                <Text className="text-lg font-semibold text-white">
+                  Contato
+                </Text>
+                <Text className="text-base font-normal text-gray-400">
+                  {data.phone}
+                </Text>
+              </View>
+              <TouchableOpacity onPress={() => handleOpenWhatsApp(data.phone)}>
+                <IconCustom
+                  name="whatsapp"
+                  size={32}
+                  color={colors.green[600]}
+                />
+              </TouchableOpacity>
+            </View>
+
             <Description
               title="Formas de pagamento"
               value={data.payment}
               style={{ marginTop: 16 }}
             />
-            <Description
-              title="Localização"
-              value={data.locale}
-              style={{ marginTop: 16 }}
-            />
+
+            <View className="mt-4">
+              <Text className="text-lg font-semibold text-white mb-1">
+                Como chegar
+              </Text>
+
+              <Map coords={data.coords} />
+              <Text className="text-base font-normal text-gray-400">
+                {data.locale}
+              </Text>
+            </View>
           </View>
         </View>
       </ScrollView>

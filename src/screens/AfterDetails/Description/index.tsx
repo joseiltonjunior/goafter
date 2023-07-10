@@ -9,7 +9,7 @@ export function Description({ title, value, ...rest }: descriptionProps) {
   return (
     <View {...rest}>
       <Text className="text-lg font-semibold text-white">{title}</Text>
-      <Text className="text-base font-normal ">{value}</Text>
+      <Text className="text-base font-normal text-gray-400">{value}</Text>
     </View>
   )
 }
