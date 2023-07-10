@@ -11,23 +11,54 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import emptyIcon from '@assets/empty.png'
+import { IconCustom } from '@components/IconCustom'
+import { VerifyFavorite } from '@utils/verifyFavorite'
+import {
+  setAddFavorites,
+  setRemoveFavorites,
+} from '@storage/modules/favorites/actions'
+import colors from 'tailwindcss/colors'
 
 export function Favorites() {
   const favorites = useSelector<ReduxProps, FavoriteProps[]>(
     (state) => state.favorites,
   )
 
+  const dispatch = useDispatch()
+
   const navigation = useNavigation<StackNavigationProps>()
+
+  function removeFavorite(data: FavoriteProps) {
+    if (!data) return
+    dispatch(setRemoveFavorites(data))
+  }
+
+  function addFavorite(data: FavoriteProps) {
+    if (!data) return
+
+    dispatch(setAddFavorites(data))
+  }
 
   return (
     <>
       <View className="p-4 flex-1">
-        <Text className="font-bold text-xl text-white">Meus favoritos</Text>
+        <View className="flex-row items-center">
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            className="bg-gray-500/70 h-9 w-9 rounded-full items-center justify-center p-2 absolute"
+            activeOpacity={0.6}
+          >
+            <IconCustom name="arrow-left" size={16} color={colors.gray[100]} />
+          </TouchableOpacity>
+          <Text className="font-bold text-lg text-white ml-auto mr-auto">
+            Meus favoritos
+          </Text>
+        </View>
         <FlatList
-          className="mt-2"
+          className="mt-8"
           data={favorites}
           ListEmptyComponent={() => (
             <View className="items-center justify-center mt-[20%]">
@@ -60,11 +91,33 @@ export function Favorites() {
             >
               <ImageBackground
                 source={{ uri: after.item.picUrl }}
-                className="h-24 rounded-md overflow-hidden justify-center p-4 items-start"
+                className="h-24 rounded-md overflow-hidden justify-between p-4 items-center flex-row"
               >
-                <Text className="text-lg font-bold text-white bg-gray-500/50 px-2 rounded-md">
+                <Text className="text-lg font-medium text-white bg-gray-500/70 px-2 rounded-md">
                   {after.item.name}
                 </Text>
+
+                <TouchableOpacity
+                  onPress={() => {
+                    if (VerifyFavorite({ favorites, name: after.item.name })) {
+                      removeFavorite(after.item)
+                    } else {
+                      addFavorite(after.item)
+                    }
+                  }}
+                  className="bg-gray-500/70 h-9 w-9 rounded-full items-center justify-center p-2"
+                  activeOpacity={0.6}
+                >
+                  <IconCustom
+                    name="heart"
+                    size={16}
+                    color={
+                      VerifyFavorite({ favorites, name: after.item.name })
+                        ? '#e3342f'
+                        : '#e2e8f0'
+                    }
+                  />
+                </TouchableOpacity>
               </ImageBackground>
             </TouchableOpacity>
           )}

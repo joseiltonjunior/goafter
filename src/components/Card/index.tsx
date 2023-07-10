@@ -34,14 +34,14 @@ export function Card({ name, pic, stars, onAction }: CardProps) {
           >
             <View className="flex-1">
               <View className="flex-row items-center justify-between p-1">
-                <View className="flex-row items-center justify-center bg-gray-900/60 rounded-md px-1">
+                <View className="flex-row items-center justify-center bg-gray-900/70 rounded-md px-1">
                   <Icon name="star" color={'#fedc3d'} size={12} />
                   <Text className="font-bold text-xs text-white ml-1">
                     {stars}
                   </Text>
                 </View>
 
-                <View className="flex-row items-center justify-center bg-gray-900/60 rounded-full p-1">
+                <View className="flex-row items-center justify-center bg-gray-900/70 rounded-full p-1">
                   <Icon
                     name="heart"
                     size={12}
