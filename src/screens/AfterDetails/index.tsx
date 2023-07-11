@@ -72,8 +72,6 @@ export function AfterDetails() {
       .catch((err) => console.error('Erro ao abrir o WhatsApp:', err))
   }
 
-  console.log(data)
-
   return (
     <>
       <ScrollView className="bg-gray-950">
