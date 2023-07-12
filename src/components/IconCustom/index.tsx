@@ -1,11 +1,6 @@
 import Icon from 'react-native-vector-icons/FontAwesome'
+import { IconProps } from 'react-native-vector-icons/Icon'
 
-interface iconCustomProps {
-  name: string
-  size?: number
-  color?: string
-}
-
-export function IconCustom({ name, size, color }: iconCustomProps) {
-  return <Icon name={name} size={size} color={color} />
+export function IconCustom({ name, size, color, ...rest }: IconProps) {
+  return <Icon name={name} size={size} color={color} {...rest} />
 }

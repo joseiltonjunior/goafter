@@ -25,6 +25,9 @@ import colors from 'tailwindcss/colors'
 import { Description } from './Description'
 import { Map } from './Map'
 import { Schedules } from './Schedules'
+import { calculateDistance } from '@utils/calculateDistance'
+import { formatDistance } from '@utils/formatDistance'
+import { LocationProps } from '@storage/modules/location/types'
 
 export function AfterDetails() {
   const {
@@ -34,6 +37,15 @@ export function AfterDetails() {
   const favorites = useSelector<ReduxProps, FavoriteProps[]>(
     (state) => state.favorites,
   )
+
+  const actualLocation = useSelector<ReduxProps, LocationProps>(
+    (state) => state.actualLocation,
+  )
+
+  const distance = calculateDistance({
+    actualCoords: actualLocation,
+    afterCoords: data.coords,
+  })
 
   const dispatch = useDispatch()
 
@@ -126,7 +138,7 @@ export function AfterDetails() {
                 <Text className="text-md font-bold text-white px-0.5">
                   {data.stars}
                 </Text>
-                <Text className="text-md font-light text-gray-400">
+                <Text className="text-md font-medium text-gray-400">
                   ({data.indicator})
                 </Text>
               </View>
@@ -175,11 +187,26 @@ export function AfterDetails() {
             />
 
             <View className="mt-4">
-              <Text className="text-lg font-semibold text-white mb-1">
-                Como chegar
-              </Text>
+              <View className="flex-row mb-1 items-center">
+                <Text className="text-lg font-semibold text-white">
+                  Como chegar
+                </Text>
+                <IconCustom
+                  name="circle"
+                  color={colors.gray[400]}
+                  size={6}
+                  className="px-2 mt-1"
+                />
+                <Text className="text-base font-semibold text-gray-400">
+                  {formatDistance(distance)} de distância
+                </Text>
+              </View>
 
-              <Map coords={data.coords} />
+              <Map
+                afterTitle={data.name}
+                afterCoords={data.coords}
+                actualCoords={actualLocation}
+              />
               <Text className="text-base font-normal text-gray-400">
                 {data.locale}
               </Text>

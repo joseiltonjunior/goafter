@@ -39,11 +39,7 @@ export function Home() {
     <>
       <ScrollView className="bg-gray-950">
         <View className="p-4">
-          <HeaderSection
-            style={{ marginBottom: 8 }}
-            title="Categorias"
-            viewMore={() => console.log('ok')}
-          />
+          <HeaderSection style={{ marginBottom: 8 }} title="Categorias" />
           <Categories data={afters} />
           {favorites.length > 0 && (
             <>

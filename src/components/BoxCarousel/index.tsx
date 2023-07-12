@@ -14,7 +14,6 @@ export function BoxCarousel({ data }: SectionProps) {
   return (
     <Carousel
       loop={false}
-      vertical={false}
       style={{ width: 'auto' }}
       width={150}
       height={170}
