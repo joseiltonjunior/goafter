@@ -44,7 +44,7 @@ export function Home() {
             title="Categorias"
             viewMore={() => console.log('ok')}
           />
-          <Categories />
+          <Categories data={afters} />
           {favorites.length > 0 && (
             <>
               <HeaderSection

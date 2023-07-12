@@ -9,13 +9,15 @@ interface itemProps {
   title: string
   image: ImageSourcePropType
   small?: boolean
+  onAction?: () => void
 }
 
-export function Item({ image, title, small }: itemProps) {
+export function Item({ image, title, small, onAction }: itemProps) {
   return (
     <TouchableOpacity
       className="flex-1 rounded-md overflow-hidden"
       activeOpacity={0.6}
+      onPress={onAction}
     >
       <ImageBackground
         source={image}

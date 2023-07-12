@@ -8,6 +8,7 @@ export interface FavoriteProps {
   phone: string
   description: string
   indicator: number
+  type: string
   coords: {
     latitude: number
     longitude: number

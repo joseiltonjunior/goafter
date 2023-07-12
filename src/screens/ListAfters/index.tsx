@@ -13,6 +13,7 @@ import { VerifyFavorite } from '@utils/verifyFavorite'
 import { FlatList, Image, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useDispatch, useSelector } from 'react-redux'
+import colors from 'tailwindcss/colors'
 
 export function ListAfters() {
   const {
@@ -63,11 +64,22 @@ export function ListAfters() {
                 </Text>
 
                 <View className="flex-row items-center">
-                  <IconCustom name="star" color={'#fedc3d'} size={14} />
-                  <Text className="font-bold text-md ml-1">{item.stars}</Text>
-                  <Text className="font-normal text-md ml-1">
-                    ({item.indicator})
-                  </Text>
+                  <View className="flex-row items-center">
+                    <IconCustom name="star" color={'#fedc3d'} size={14} />
+                    <Text className="font-bold ml-1 text-md text-[#fedc3d]">
+                      {item.stars}
+                    </Text>
+                  </View>
+                  <View className="flex-row items-center ml-2">
+                    <IconCustom
+                      name="circle"
+                      color={colors.gray[400]}
+                      size={6}
+                    />
+                    <Text className="font-normal text-md ml-2 text-gray-400">
+                      {item.type}
+                    </Text>
+                  </View>
                 </View>
               </View>
 

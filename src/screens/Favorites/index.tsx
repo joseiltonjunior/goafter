@@ -83,7 +83,7 @@ export function Favorites() {
                 source={{ uri: after.item.picUrl }}
                 className="h-24 rounded-md overflow-hidden justify-between p-4 items-center flex-row"
               >
-                <Text className="text-lg font-medium text-white bg-gray-500/70 px-2 rounded-md">
+                <Text className="text-lg font-medium text-white bg-gray-950/70 px-2 rounded-md">
                   {after.item.name}
                 </Text>
 
@@ -95,7 +95,7 @@ export function Favorites() {
                       addFavorite(after.item)
                     }
                   }}
-                  className="bg-gray-500/70 h-9 w-9 rounded-full items-center justify-center p-2"
+                  className="bg-gray-950/70 h-9 w-9 rounded-full items-center justify-center p-2"
                   activeOpacity={0.6}
                 >
                   <IconCustom

@@ -17,7 +17,7 @@ export function HeaderScreen({ title }: headerScreen) {
       <View className="absolute left-0">
         <TouchableOpacity
           onPress={() => navigation.goBack()}
-          className="bg-gray-500/70 h-9 w-9 rounded-full items-center justify-center p-2"
+          className="bg-gray-500 h-9 w-9 rounded-full items-center justify-center p-2"
           activeOpacity={0.6}
         >
           <IconCustom name="arrow-left" size={16} color={colors.gray[100]} />

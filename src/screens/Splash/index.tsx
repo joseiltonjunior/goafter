@@ -31,6 +31,7 @@ export function SplashScreen() {
               phone: doc.data().phone,
               stars: doc.data().stars,
               coords: doc.data().coords,
+              type: doc.data().type,
             } as FavoriteProps),
         )
 

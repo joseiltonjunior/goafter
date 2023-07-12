@@ -86,7 +86,7 @@ export function AfterDetails() {
             <View className="flex-row justify-between">
               <TouchableOpacity
                 onPress={() => navigation.goBack()}
-                className="bg-gray-500/70 h-9 w-9 rounded-full items-center justify-center p-2"
+                className="bg-gray-950/70 h-9 w-9 rounded-full items-center justify-center p-2"
                 activeOpacity={0.6}
               >
                 <IconCustom
@@ -103,7 +103,7 @@ export function AfterDetails() {
                     addFavorite()
                   }
                 }}
-                className="bg-gray-500/70 h-9 w-9 rounded-full items-center justify-center p-2"
+                className="bg-gray-950/70 h-9 w-9 rounded-full items-center justify-center p-2"
                 activeOpacity={0.6}
               >
                 <IconCustom
@@ -133,8 +133,14 @@ export function AfterDetails() {
             </View>
 
             <Text className="text-md font-normal text-gray-400">
-              {data.description}
+              {data.type}
             </Text>
+
+            <Description
+              title="Descrição"
+              value={data.description}
+              style={{ marginTop: 16 }}
+            />
 
             <Description
               title="Avaliação dos clientes"
