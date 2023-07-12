@@ -44,7 +44,7 @@ export function Home() {
             title="Categorias"
             viewMore={() => console.log('ok')}
           />
-          <Categories />
+          <Categories data={afters} />
           {favorites.length > 0 && (
             <>
               <HeaderSection
@@ -59,14 +59,24 @@ export function Home() {
           <HeaderSection
             style={{ marginBottom: 8, marginTop: 24 }}
             title="Mais indicados"
-            viewMore={() => console.log('ok')}
+            viewMore={() =>
+              navigation.navigate('ListAfters', {
+                key: 'Mais indicados',
+                data: afters.filter((item) => item.indicator >= 30),
+              })
+            }
           />
           <BoxCarousel data={afters.filter((item) => item.indicator >= 30)} />
 
           <HeaderSection
             style={{ marginBottom: 8, marginTop: 16 }}
             title="Olinda"
-            viewMore={() => console.log('ok')}
+            viewMore={() =>
+              navigation.navigate('ListAfters', {
+                key: 'Olinda',
+                data: afters.filter((item) => item.locale.includes('Olinda')),
+              })
+            }
           />
           <BoxCarousel
             data={afters.filter((item) => item.locale.includes('Olinda'))}
@@ -75,7 +85,12 @@ export function Home() {
           <HeaderSection
             style={{ marginBottom: 8, marginTop: 16 }}
             title="Recife"
-            viewMore={() => console.log('ok')}
+            viewMore={() =>
+              navigation.navigate('ListAfters', {
+                key: 'Recife',
+                data: afters.filter((item) => item.locale.includes('Recife')),
+              })
+            }
           />
           <BoxCarousel
             data={afters.filter((item) => item.locale.includes('Recife'))}
@@ -84,7 +99,12 @@ export function Home() {
           <HeaderSection
             style={{ marginBottom: 8, marginTop: 16 }}
             title="Jaboatão dos Guararapes"
-            viewMore={() => console.log('ok')}
+            viewMore={() =>
+              navigation.navigate('ListAfters', {
+                key: 'Jaboatão dos Guararapes',
+                data: afters.filter((item) => item.locale.includes('Jaboatão')),
+              })
+            }
           />
           <BoxCarousel
             data={afters.filter((item) => item.locale.includes('Jaboatão'))}

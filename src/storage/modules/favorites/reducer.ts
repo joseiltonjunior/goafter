@@ -13,18 +13,10 @@ const INITIAL_STATE: FavoriteProps[] = [
     phone: '(81) 3125-0280',
     description: 'Restaurante.',
     indicator: 33,
-  },
-  {
-    locale: 'R. São Mateus, 576 - Loja 1 - Iputinga, Recife - PE',
-    name: 'Barteco',
-    hour: '17:00 - 22:00',
-    payment: 'Cartão e Dinheiro',
-    stars: 5,
-    picUrl:
-      'https://clientes.programaconsumer.com.br/wp-content/uploads/2020/01/barteco-recife-pe-destaque.png',
-    phone: '(81) 98679-8371',
-    description: 'Hamburgueria.',
-    indicator: 33,
+    coords: {
+      latitude: -8.1102634,
+      longitude: -34.9289824,
+    },
   },
 ]
 
