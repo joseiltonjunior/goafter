@@ -3,6 +3,7 @@ import {
   Text,
   TouchableOpacity,
   ImageSourcePropType,
+  View,
 } from 'react-native'
 
 interface itemProps {
@@ -19,9 +20,12 @@ export function Item({ image, title, small, onAction }: itemProps) {
       activeOpacity={0.6}
       onPress={onAction}
     >
+      {!onAction && (
+        <View className="bg-gray-950/70 h-14 absolute z-[999] w-full" />
+      )}
       <ImageBackground
         source={image}
-        className="h-14 items-center justify-center"
+        className="h-14 items-center justify-center "
       >
         <Text
           className={`font-medium text-base text-gray-100 bg-gray-950/70 px-1 rounded ${

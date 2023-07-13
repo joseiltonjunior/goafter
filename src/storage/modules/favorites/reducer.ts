@@ -1,24 +1,7 @@
 import { Reducer } from 'redux'
 import { FavoriteProps } from './types'
 
-const INITIAL_STATE: FavoriteProps[] = [
-  {
-    locale: 'R. Dep. Célso Miranda - Ipsep, Recife - PE',
-    name: 'Petiscaria Pajuçara',
-    hour: '11:00 - 22:00',
-    payment: 'Cartão e Dinheiro',
-    stars: 5,
-    picUrl:
-      'https://lh3.googleusercontent.com/p/AF1QipOzRMlfVf8nvBVLkA-TRPzXyQHbK7R-Tgj05w_k=s680-w680-h510',
-    phone: '(81) 3125-0280',
-    description: 'Restaurante.',
-    indicator: 33,
-    coords: {
-      latitude: -8.1102634,
-      longitude: -34.9289824,
-    },
-  },
-]
+const INITIAL_STATE: FavoriteProps[] = []
 
 const favorites: Reducer<FavoriteProps[]> = (state = INITIAL_STATE, action) => {
   switch (action.type) {

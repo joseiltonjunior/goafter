@@ -68,7 +68,7 @@ export function ListAfters() {
               className="flex-row items-center gap-2 my-1"
             >
               <Image
-                source={{ uri: item.picUrl }}
+                source={{ uri: item.logoUrl }}
                 alt="after pic"
                 className="w-14 h-14 rounded-full"
               />

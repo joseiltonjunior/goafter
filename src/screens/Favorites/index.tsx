@@ -1,4 +1,3 @@
-import { Menu } from '@components/Menu'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProps } from '@routes/routes'
 import { ReduxProps } from '@storage/index'
@@ -58,7 +57,7 @@ export function Favorites() {
                 className="w-40 h-40"
               />
               <Text className="font-medium text-lg text-white mt-8 max-w-[250px] text-center">
-                Opss.. Sua lista de favoritos está vázia.
+                Sua lista de favoritos está vázia.
               </Text>
 
               <TouchableOpacity
@@ -80,7 +79,7 @@ export function Favorites() {
               }
             >
               <ImageBackground
-                source={{ uri: after.item.picUrl }}
+                source={{ uri: after.item.picsUrl[0] }}
                 className="h-24 rounded-md overflow-hidden justify-between p-4 items-center flex-row"
               >
                 <Text className="text-lg font-medium text-white bg-gray-950/70 px-2 rounded-md">
@@ -114,8 +113,6 @@ export function Favorites() {
           ItemSeparatorComponent={() => <View className="h-4" />}
         />
       </View>
-
-      <Menu />
     </>
   )
 }

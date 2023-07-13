@@ -4,7 +4,9 @@ export interface FavoriteProps {
   hour: string
   payment: string
   stars: number
-  picUrl: string
+  logoUrl: string
+  instagramUrl: string
+  picsUrl: string[]
   phone: string
   description: string
   indicator: number

@@ -31,9 +31,11 @@ export function SplashScreen() {
         const aftersResponses = querySnapshot.docs.map(
           (doc) =>
             ({
-              picUrl: doc.data().picUrl,
+              logoUrl: doc.data().logoUrl,
               description: doc.data().description,
               hour: doc.data().hour,
+              instagramUrl: doc.data().instagramUrl,
+              picsUrl: doc.data().picsUrl,
               indicator: doc.data().indicator,
               locale: doc.data().locale,
               name: doc.data().name,

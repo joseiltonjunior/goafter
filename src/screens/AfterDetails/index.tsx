@@ -1,26 +1,21 @@
 import { IconCustom } from '@components/IconCustom'
 import { Menu } from '@components/Menu'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import { RouteParamsProps, StackNavigationProps } from '@routes/routes'
+import { useRoute } from '@react-navigation/native'
+import { RouteParamsProps } from '@routes/routes'
 import { ReduxProps } from '@storage/index'
-import {
-  setAddFavorites,
-  setRemoveFavorites,
-} from '@storage/modules/favorites/actions'
-import { FavoriteProps } from '@storage/modules/favorites/types'
-import { VerifyFavorite } from '@utils/verifyFavorite'
+
+import crashlytics from '@react-native-firebase/crashlytics'
 
 import {
   Linking,
-  // FlatList,
-  ImageBackground,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
+  Image,
 } from 'react-native'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import colors from 'tailwindcss/colors'
 import { Description } from './Description'
 import { Map } from './Map'
@@ -28,15 +23,14 @@ import { Schedules } from './Schedules'
 import { calculateDistance } from '@utils/calculateDistance'
 import { formatDistance } from '@utils/formatDistance'
 import { LocationProps } from '@storage/modules/location/types'
+import { openLinkProps } from '@utils/types/openLinking'
+import { handleFormatIndicator } from '@utils/formatIndicator'
+import { PicsUrl } from './PicsCarousel'
 
 export function AfterDetails() {
   const {
     params: { data },
   } = useRoute<RouteParamsProps<'AfterDetails'>>()
-  const navigation = useNavigation<StackNavigationProps>()
-  const favorites = useSelector<ReduxProps, FavoriteProps[]>(
-    (state) => state.favorites,
-  )
 
   const actualLocation = useSelector<ReduxProps, LocationProps>(
     (state) => state.actualLocation,
@@ -47,106 +41,69 @@ export function AfterDetails() {
     afterCoords: data.coords,
   })
 
-  const dispatch = useDispatch()
+  function handleOpenLink({ insta, phone }: openLinkProps) {
+    let url = ''
+    let errorMessage = ''
 
-  function removeFavorite() {
-    if (!data) return
-    dispatch(setRemoveFavorites(data))
-  }
-
-  function addFavorite() {
-    if (!data) return
-
-    dispatch(setAddFavorites(data))
-  }
-
-  function handleFormatIndicator(indicator: number) {
-    if (indicator && indicator <= 10) return 'Pouco recomendado'
-    if (indicator > 10 && indicator <= 20) return 'Recomendado'
-    if (indicator > 20) return 'Super recomendado'
-
-    return 'Sem recomendações'
-  }
-
-  function handleOpenWhatsApp(phone: string) {
-    const phoneNumber = `+55${phone}`
-
-    const url = `whatsapp://send?phone=${phoneNumber}`
+    if (insta) {
+      errorMessage = 'Não é possível abrir o Instagram'
+      url = insta
+    } else if (phone) {
+      errorMessage = 'Não é possível abrir o WhatsApp'
+      const phoneNumber = `+55${phone}`
+      url = `whatsapp://send?phone=${phoneNumber}`
+    }
 
     Linking.canOpenURL(url)
       .then((supported) => {
         if (supported) {
           return Linking.openURL(url)
         } else {
-          console.log('Não é possível abrir o WhatsApp')
+          crashlytics().recordError({
+            message: errorMessage,
+            name: 'Linking error',
+          })
         }
       })
-      .catch((err) => console.error('Erro ao abrir o WhatsApp:', err))
+      .catch((err) => crashlytics().recordError(err))
   }
 
   return (
     <>
       <ScrollView className="bg-gray-950">
+        <PicsUrl data={data} />
         <View>
-          <ImageBackground
-            className="h-72 p-4 pb-12"
-            source={{
-              uri: `${data.picUrl}`,
-            }}
-            alt="after pic"
-          >
-            <View className="flex-row justify-between">
-              <TouchableOpacity
-                onPress={() => navigation.goBack()}
-                className="bg-gray-950/70 h-9 w-9 rounded-full items-center justify-center p-2"
-                activeOpacity={0.6}
-              >
-                <IconCustom
-                  name="arrow-left"
-                  size={16}
-                  color={colors.gray[100]}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  if (VerifyFavorite({ favorites, name: data.name })) {
-                    removeFavorite()
-                  } else {
-                    addFavorite()
-                  }
-                }}
-                className="bg-gray-950/70 h-9 w-9 rounded-full items-center justify-center p-2"
-                activeOpacity={0.6}
-              >
-                <IconCustom
-                  name="heart"
-                  size={16}
-                  color={
-                    VerifyFavorite({ favorites, name: data.name })
-                      ? '#e3342f'
-                      : '#e2e8f0'
-                  }
-                />
-              </TouchableOpacity>
-            </View>
-          </ImageBackground>
           <View className="p-4  rounded-t-3xl bg-gray-950 -mt-8 overflow-hidden">
-            <View className="flex-row items-center justify-between">
-              <Text className="text-xl font-bold text-white">{data.name}</Text>
-              <View className="flex-row items-center">
-                <IconCustom name="star" color={colors.yellow[500]} size={16} />
-                <Text className="text-md font-bold text-white px-0.5">
-                  {data.stars}
+            <View className="flex-row items-center gap-2">
+              <Image
+                source={{ uri: data.logoUrl }}
+                alt="logo after"
+                className="rounded-full w-16 h-16"
+              />
+              <View className="flex-1">
+                <Text className="text-xl font-bold text-white">
+                  {data.name}
                 </Text>
-                <Text className="text-md font-medium text-gray-400">
-                  ({data.indicator})
-                </Text>
+                <View className="flex-row items-center justify-between">
+                  <Text className="text-md font-normal text-gray-400">
+                    {data.type}
+                  </Text>
+                  <View className="flex-row items-center">
+                    <IconCustom
+                      name="star"
+                      color={colors.yellow[500]}
+                      size={16}
+                    />
+                    <Text className="text-md font-bold text-white px-0.5">
+                      {data.stars}
+                    </Text>
+                    <Text className="text-md font-medium text-gray-400">
+                      ({data.indicator})
+                    </Text>
+                  </View>
+                </View>
               </View>
             </View>
-
-            <Text className="text-md font-normal text-gray-400">
-              {data.type}
-            </Text>
 
             <Description
               title="Descrição"
@@ -162,22 +119,37 @@ export function AfterDetails() {
 
             <Schedules data={data.hour} />
 
-            <View className="flex-row justify-between items-center mt-4">
-              <View>
-                <Text className="text-lg font-semibold text-white">
-                  Contato
-                </Text>
-                <Text className="text-base font-normal text-gray-400">
-                  {data.phone}
-                </Text>
+            <View className="mt-4">
+              <Text className="text-lg font-semibold text-white">Telefone</Text>
+              <Text className="text-base font-normal text-gray-400">
+                {data.phone}
+              </Text>
+            </View>
+
+            <View className="mt-4">
+              <Text className="text-lg font-semibold text-white">
+                Redes sociais
+              </Text>
+              <View className="flex-row items-center gap-4 pt-1">
+                <TouchableOpacity
+                  onPress={() => handleOpenLink({ phone: data.phone })}
+                >
+                  <IconCustom
+                    name="whatsapp"
+                    size={32}
+                    color={colors.green[600]}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleOpenLink({ insta: data.instagramUrl })}
+                >
+                  <IconCustom
+                    name="instagram"
+                    size={32}
+                    color={colors.rose[400]}
+                  />
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity onPress={() => handleOpenWhatsApp(data.phone)}>
-                <IconCustom
-                  name="whatsapp"
-                  size={32}
-                  color={colors.green[600]}
-                />
-              </TouchableOpacity>
             </View>
 
             <Description
