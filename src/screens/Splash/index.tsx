@@ -10,7 +10,6 @@ import crashlytics from '@react-native-firebase/crashlytics'
 import firestore from '@react-native-firebase/firestore'
 import { FavoriteProps } from '@storage/modules/favorites/types'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import NetInfo from '@react-native-community/netinfo'
 import Geolocation from '@react-native-community/geolocation'
 import { ModalCustom } from '@components/ModalCustom'
 import { useDispatch } from 'react-redux'
@@ -93,20 +92,13 @@ export function SplashScreen() {
     return verifyAccessLocation
   }, [navigation])
 
-  const handleCheckPermission = useCallback(() => {
-    NetInfo.fetch()
-      .then(async (state) => {
-        if (!state.isConnected) {
-          return navigation.navigate('NoAccessNetwork')
-        }
-        const accessLocation = await handleCheckLocation()
+  const handleCheckPermission = useCallback(async () => {
+    const accessLocation = await handleCheckLocation()
 
-        if (accessLocation) {
-          handleFetchCurrentLocation()
-        }
-      })
-      .catch((err) => crashlytics().recordError(err))
-  }, [handleCheckLocation, handleFetchCurrentLocation, navigation])
+    if (accessLocation) {
+      handleFetchCurrentLocation()
+    }
+  }, [handleCheckLocation, handleFetchCurrentLocation])
 
   useEffect(() => {
     handleCheckPermission()
