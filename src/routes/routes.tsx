@@ -9,9 +9,10 @@ import { RouteProp } from '@react-navigation/native'
 import { Home } from '@screens/Home'
 import { SplashScreen } from '@screens/Splash'
 import { Favorites } from '@screens/Favorites'
-import { NoAccessNetwork } from '@screens/NoAccessNetwork'
+
 import { AfterDetails } from '@screens/AfterDetails'
 import { ListAfters } from '@screens/ListAfters'
+import { AccessLocation } from '@screens/AccessLocation'
 
 import { FavoriteProps } from '@storage/modules/favorites/types'
 
@@ -20,7 +21,6 @@ type RootStackParamList = {
   Home: {
     data?: FavoriteProps[]
   }
-  NoAccessNetwork: undefined
   AfterDetails: {
     data: FavoriteProps
   }
@@ -29,6 +29,7 @@ type RootStackParamList = {
     key: string
     data: FavoriteProps[]
   }
+  AccessLocation: undefined
 }
 
 export type StackNavigationProps = StackNavigationProp<RootStackParamList>
@@ -63,10 +64,10 @@ export function Routes() {
     >
       <Stack.Screen name="Splash" component={SplashScreen} />
       <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="NoAccessNetwork" component={NoAccessNetwork} />
       <Stack.Screen name="AfterDetails" component={AfterDetails} />
       <Stack.Screen name="Favorites" component={Favorites} />
       <Stack.Screen name="ListAfters" component={ListAfters} />
+      <Stack.Screen name="AccessLocation" component={AccessLocation} />
     </Stack.Navigator>
   )
 }

@@ -8,7 +8,7 @@ export function Schedules({ data }: schedulesProps) {
   return (
     <View>
       <Text className="text-lg font-semibold text-white mb-1 mt-4">
-        Horários de Funcionamento
+        Horários de funcionamento
       </Text>
 
       <View className="flex-row justify-between items-center">

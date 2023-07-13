@@ -9,11 +9,14 @@ import {
   setRemoveFavorites,
 } from '@storage/modules/favorites/actions'
 import { FavoriteProps } from '@storage/modules/favorites/types'
+import { LocationProps } from '@storage/modules/location/types'
 import { VerifyFavorite } from '@utils/verifyFavorite'
 import { FlatList, Image, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useDispatch, useSelector } from 'react-redux'
 import colors from 'tailwindcss/colors'
+import { formatDistance } from '@utils/formatDistance'
+import { calculateDistance } from '@utils/calculateDistance'
 
 export function ListAfters() {
   const {
@@ -22,6 +25,10 @@ export function ListAfters() {
   const navigation = useNavigation<StackNavigationProps>()
   const favorites = useSelector<ReduxProps, FavoriteProps[]>(
     (state) => state.favorites,
+  )
+
+  const actualCoords = useSelector<ReduxProps, LocationProps>(
+    (state) => state.actualLocation,
   )
 
   const dispatch = useDispatch()
@@ -35,6 +42,14 @@ export function ListAfters() {
     if (!data) return
 
     dispatch(setAddFavorites(data))
+  }
+  function handleDistance(afterCoords: LocationProps) {
+    const distance = calculateDistance({
+      actualCoords,
+      afterCoords,
+    })
+
+    return formatDistance(distance)
   }
 
   return (
@@ -53,7 +68,7 @@ export function ListAfters() {
               className="flex-row items-center gap-2 my-1"
             >
               <Image
-                source={{ uri: item.picUrl }}
+                source={{ uri: item.logoUrl }}
                 alt="after pic"
                 className="w-14 h-14 rounded-full"
               />
@@ -65,8 +80,8 @@ export function ListAfters() {
 
                 <View className="flex-row items-center">
                   <View className="flex-row items-center">
-                    <IconCustom name="star" color={'#fedc3d'} size={14} />
-                    <Text className="font-bold ml-1 text-md text-[#fedc3d]">
+                    <IconCustom name="star" color={'#fedc3d'} size={12} />
+                    <Text className="font-medium text-xs ml-1 text-md text-[#fedc3d]">
                       {item.stars}
                     </Text>
                   </View>
@@ -74,10 +89,20 @@ export function ListAfters() {
                     <IconCustom
                       name="circle"
                       color={colors.gray[400]}
-                      size={6}
+                      size={5}
                     />
-                    <Text className="font-normal text-md ml-2 text-gray-400">
+                    <Text className="font-medium text-xs ml-2 text-gray-400">
                       {item.type}
+                    </Text>
+
+                    <IconCustom
+                      className="ml-2"
+                      name="circle"
+                      color={colors.gray[400]}
+                      size={5}
+                    />
+                    <Text className="font-medium text-xs ml-2 text-gray-400">
+                      {handleDistance(item.coords)}
                     </Text>
                   </View>
                 </View>
