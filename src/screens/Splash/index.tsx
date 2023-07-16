@@ -15,6 +15,7 @@ import { ModalCustom } from '@components/ModalCustom'
 import { useDispatch } from 'react-redux'
 import { setActualLocation } from '@storage/modules/location/actions'
 import ImmersiveMode from 'react-native-immersive-mode'
+import { handleVisibleSideMenu } from '@storage/modules/sideMenu/actions'
 
 const size = Dimensions.get('window').width * 1
 
@@ -101,9 +102,10 @@ export function SplashScreen() {
   }, [handleCheckLocation, handleFetchCurrentLocation])
 
   useEffect(() => {
+    dispatch(handleVisibleSideMenu({ isVisible: false }))
     ImmersiveMode.fullLayout(true)
     handleCheckPermission()
-  }, [handleCheckPermission, navigation])
+  }, [dispatch, handleCheckPermission, navigation])
 
   return (
     <>

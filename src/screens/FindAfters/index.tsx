@@ -109,7 +109,7 @@ export function FindAfters() {
             <TouchableOpacity
               activeOpacity={0.5}
               onPress={() =>
-                navigation.navigate('AfterDetails', { data: item })
+                navigation.navigate('AfterDetails', { selected: item, data })
               }
               className="flex-row items-center gap-2 my-1"
             >

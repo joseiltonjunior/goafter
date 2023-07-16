@@ -6,7 +6,7 @@ const INITIAL_STATE: LocationProps = {
   longitude: 0,
 }
 
-const user: Reducer<LocationProps> = (state = INITIAL_STATE, action) => {
+const location: Reducer<LocationProps> = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SET_ACTUAL_LOCATION: {
       const { location } = action.payload
@@ -19,4 +19,4 @@ const user: Reducer<LocationProps> = (state = INITIAL_STATE, action) => {
   }
 }
 
-export default user
+export default location

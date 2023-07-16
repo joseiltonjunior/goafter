@@ -24,7 +24,9 @@ export function BoxCarousel({ data }: SectionProps) {
           name={item.name}
           pic={item.picsUrl[0]}
           stars={item.stars}
-          onAction={() => navigation.navigate('AfterDetails', { data: item })}
+          onAction={() =>
+            navigation.navigate('AfterDetails', { selected: item, data })
+          }
         />
       )}
     />

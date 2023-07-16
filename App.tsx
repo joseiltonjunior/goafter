@@ -15,6 +15,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { store, persistor } from '@storage/index'
 
 import '@config/ReactotronConfig'
+import { SideMenu } from '@components/SideMenu'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
           <StatusBar backgroundColor={'#202022'} />
+          <SideMenu />
           <Routes />
         </NavigationContainer>
       </PersistGate>

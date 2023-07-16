@@ -6,15 +6,18 @@ import { FavoriteProps } from './modules/favorites/types'
 import { persistStore, persistReducer } from 'redux-persist'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { SideMenuProps } from './modules/sideMenu/types'
 
 export interface ReduxProps {
   actualLocation: LocationProps
   favorites: FavoriteProps[]
+  sideMenu: SideMenuProps
 }
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
+  blacklist: ['sideMenu'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

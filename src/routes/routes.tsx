@@ -23,9 +23,12 @@ type RootStackParamList = {
     data?: FavoriteProps[]
   }
   AfterDetails: {
-    data: FavoriteProps
+    selected: FavoriteProps
+    data?: FavoriteProps[]
   }
-  Favorites: undefined
+  Favorites: {
+    data?: FavoriteProps[]
+  }
   ListAfters: {
     key: string
     data: FavoriteProps[]

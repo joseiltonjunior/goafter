@@ -31,7 +31,7 @@ import React, { useEffect, useState } from 'react'
 
 export function AfterDetails() {
   const {
-    params: { data },
+    params: { selected, data },
   } = useRoute<RouteParamsProps<'AfterDetails'>>()
 
   const [scrollPosition, setScrollPosition] = useState(0)
@@ -42,7 +42,7 @@ export function AfterDetails() {
 
   const distance = calculateDistance({
     actualCoords: actualLocation,
-    afterCoords: data.coords,
+    afterCoords: selected.coords,
   })
 
   useFocusEffect(() => {
@@ -88,22 +88,22 @@ export function AfterDetails() {
           setScrollPosition(currentPosition)
         }}
       >
-        <PicsUrl data={data} />
+        <PicsUrl data={selected} />
         <View>
           <View className="p-4  rounded-t-3xl bg-gray-950 -mt-8 overflow-hidden">
             <View className="flex-row items-center gap-2">
               <Image
-                source={{ uri: data.logoUrl }}
+                source={{ uri: selected.logoUrl }}
                 alt="logo after"
                 className="rounded-full w-16 h-16"
               />
               <View className="flex-1">
                 <Text className="text-xl font-bold text-white">
-                  {data.name}
+                  {selected.name}
                 </Text>
                 <View className="flex-row items-center justify-between">
                   <Text className="text-md font-normal text-gray-400">
-                    {data.type}
+                    {selected.type}
                   </Text>
                   <View className="flex-row items-center">
                     <IconCustom
@@ -112,10 +112,10 @@ export function AfterDetails() {
                       size={16}
                     />
                     <Text className="text-md font-bold text-white px-0.5">
-                      {data.stars}
+                      {selected.stars}
                     </Text>
                     <Text className="text-md font-medium text-gray-400">
-                      ({data.indicator})
+                      ({selected.indicator})
                     </Text>
                   </View>
                 </View>
@@ -124,17 +124,17 @@ export function AfterDetails() {
 
             <Description
               title="Descrição"
-              value={data.description}
+              value={selected.description}
               style={{ marginTop: 16 }}
             />
 
-            <Schedules data={data.schedules} />
+            <Schedules data={selected.schedules} />
 
             <View className="mt-4">
               <Text className="text-lg font-semibold text-white">Telefone</Text>
               <View className="flex-row items-center justify-between">
                 <Text className="text-base font-normal text-gray-400">
-                  {handleFormatPhoneNumber(data.phone)}
+                  {handleFormatPhoneNumber(selected.phone)}
                 </Text>
                 <TouchableOpacity
                   className="bg-green-600 w-8 h-8 rounded-full items-center justify-center"
@@ -144,7 +144,7 @@ export function AfterDetails() {
                     name="phone"
                     size={20}
                     color={colors.white}
-                    onPress={() => handleOpenDisk(data.phone)}
+                    onPress={() => handleOpenDisk(selected.phone)}
                   />
                 </TouchableOpacity>
               </View>
@@ -167,18 +167,18 @@ export function AfterDetails() {
               </View>
 
               <Map
-                afterTitle={data.name}
-                afterCoords={data.coords}
+                afterTitle={selected.name}
+                afterCoords={selected.coords}
                 actualCoords={actualLocation}
               />
               <Text className="text-base font-normal text-gray-400">
-                {data.locale}
+                {selected.locale}
               </Text>
             </View>
           </View>
         </View>
       </ScrollView>
-      <Menu />
+      <Menu data={data} />
     </>
   )
 }

@@ -25,7 +25,9 @@ export function RoundedCarousel({ data }: SectionProps) {
         <RoundedCard
           name={item.name}
           pic={item.logoUrl}
-          onAction={() => navigation.navigate('AfterDetails', { data: item })}
+          onAction={() =>
+            navigation.navigate('AfterDetails', { selected: item })
+          }
         />
       )}
     />

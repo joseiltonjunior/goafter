@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native'
-import { StackNavigationProps } from '@routes/routes'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import { RouteParamsProps, StackNavigationProps } from '@routes/routes'
 import { ReduxProps } from '@storage/index'
 import { FavoriteProps } from '@storage/modules/favorites/types'
 import {
@@ -21,11 +21,16 @@ import {
 } from '@storage/modules/favorites/actions'
 
 import { HeaderScreen } from '@components/HeaderScreen'
+import { Menu } from '@components/Menu'
 
 export function Favorites() {
   const favorites = useSelector<ReduxProps, FavoriteProps[]>(
     (state) => state.favorites,
   )
+
+  const {
+    params: { data },
+  } = useRoute<RouteParamsProps<'Favorites'>>()
 
   const dispatch = useDispatch()
 
@@ -75,7 +80,7 @@ export function Favorites() {
             <TouchableOpacity
               activeOpacity={0.5}
               onPress={() =>
-                navigation.navigate('AfterDetails', { data: after.item })
+                navigation.navigate('AfterDetails', { selected: after.item })
               }
             >
               <ImageBackground
@@ -113,6 +118,7 @@ export function Favorites() {
           ItemSeparatorComponent={() => <View className="h-4" />}
         />
       </View>
+      <Menu data={data} />
     </>
   )
 }
