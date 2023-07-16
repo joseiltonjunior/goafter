@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
-import emptyIcon from '@assets/empty.png'
+import documentIcon from '@assets/documento.png'
 import { IconCustom } from '@components/IconCustom'
 import { VerifyFavorite } from '@utils/verifyFavorite'
 import {
@@ -52,7 +52,7 @@ export function Favorites() {
           ListEmptyComponent={() => (
             <View className="items-center justify-center mt-[20%]">
               <Image
-                source={emptyIcon}
+                source={documentIcon}
                 alt="empty icon"
                 className="w-40 h-40"
               />

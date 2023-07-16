@@ -17,11 +17,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import colors from 'tailwindcss/colors'
 import { formatDistance } from '@utils/formatDistance'
 import { calculateDistance } from '@utils/calculateDistance'
+import { Input } from '@components/Input'
+import { useCallback, useState } from 'react'
 
-export function ListAfters() {
+import findIcon from '@assets/lupa.png'
+
+export function FindAfters() {
   const {
     params: { key, data },
   } = useRoute<RouteParamsProps<'ListAfters'>>()
+
+  //   const [filter, setFilter] = useState('')
+  const [aftersFiltered, setAftersFiltered] = useState<FavoriteProps[]>()
+
   const navigation = useNavigation<StackNavigationProps>()
   const favorites = useSelector<ReduxProps, FavoriteProps[]>(
     (state) => state.favorites,
@@ -43,6 +51,7 @@ export function ListAfters() {
 
     dispatch(setAddFavorites(data))
   }
+
   function handleDistance(afterCoords: LocationProps) {
     const distance = calculateDistance({
       actualCoords,
@@ -52,13 +61,50 @@ export function ListAfters() {
     return formatDistance(distance)
   }
 
+  const handleFilterAfters = useCallback(
+    (text: string) => {
+      if (text.length < 1) {
+        setAftersFiltered([])
+
+        return
+      }
+
+      const filtered = data.filter(
+        (after) =>
+          after.name.includes(text) ||
+          after.type.includes(text) ||
+          after.locale.includes(text),
+      )
+
+      setAftersFiltered(filtered)
+    },
+    [data],
+  )
+
   return (
     <>
       <View className="p-4 pt-10 flex-1">
         <HeaderScreen title={key} />
+
+        <Input
+          className="mt-4"
+          placeholder="Onde é o After?"
+          onChangeText={(text) => {
+            handleFilterAfters(text)
+          }}
+        />
+
         <FlatList
           className="mt-4"
-          data={data}
+          ListEmptyComponent={() => (
+            <View className="items-center justify-center mt-[20%]">
+              <Image source={findIcon} alt="empty icon" className="w-40 h-40" />
+              <Text className="font-medium text-lg text-white mt-8  text-center max-w-xs">
+                Busque por nome, categoria ou região
+              </Text>
+            </View>
+          )}
+          data={aftersFiltered}
           renderItem={({ item }) => (
             <TouchableOpacity
               activeOpacity={0.5}

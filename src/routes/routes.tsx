@@ -13,6 +13,7 @@ import { Favorites } from '@screens/Favorites'
 import { AfterDetails } from '@screens/AfterDetails'
 import { ListAfters } from '@screens/ListAfters'
 import { AccessLocation } from '@screens/AccessLocation'
+import { FindAfters } from '@screens/FindAfters'
 
 import { FavoriteProps } from '@storage/modules/favorites/types'
 
@@ -30,6 +31,10 @@ type RootStackParamList = {
     data: FavoriteProps[]
   }
   AccessLocation: undefined
+  FindAfters: {
+    data: FavoriteProps[]
+    key: string
+  }
 }
 
 export type StackNavigationProps = StackNavigationProp<RootStackParamList>
@@ -68,6 +73,7 @@ export function Routes() {
       <Stack.Screen name="Favorites" component={Favorites} />
       <Stack.Screen name="ListAfters" component={ListAfters} />
       <Stack.Screen name="AccessLocation" component={AccessLocation} />
+      <Stack.Screen name="FindAfters" component={FindAfters} />
     </Stack.Navigator>
   )
 }

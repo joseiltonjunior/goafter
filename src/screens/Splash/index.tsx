@@ -14,6 +14,7 @@ import Geolocation from '@react-native-community/geolocation'
 import { ModalCustom } from '@components/ModalCustom'
 import { useDispatch } from 'react-redux'
 import { setActualLocation } from '@storage/modules/location/actions'
+import ImmersiveMode from 'react-native-immersive-mode'
 
 const size = Dimensions.get('window').width * 1
 
@@ -100,6 +101,7 @@ export function SplashScreen() {
   }, [handleCheckLocation, handleFetchCurrentLocation])
 
   useEffect(() => {
+    ImmersiveMode.fullLayout(true)
     handleCheckPermission()
   }, [handleCheckPermission, navigation])
 

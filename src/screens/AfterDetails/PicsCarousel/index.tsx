@@ -78,7 +78,7 @@ export function PicsUrl({ data }: picsUrlProps) {
         scrollAnimationDuration={1000}
         renderItem={({ item }) => (
           <Image
-            className="flex-1"
+            className="flex-1 w-auto"
             source={{
               uri: `${item}`,
             }}

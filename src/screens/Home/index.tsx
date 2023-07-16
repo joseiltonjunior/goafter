@@ -11,7 +11,6 @@ import { Categories } from '@components/Categories'
 import { HeaderSection } from '@components/HeaderSection'
 import { RouteParamsProps, StackNavigationProps } from '@routes/routes'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import ImmersiveMode from 'react-native-immersive-mode'
 
 export function Home() {
   const favorites = useSelector<ReduxProps, FavoriteProps[]>(
@@ -27,7 +26,6 @@ export function Home() {
   const [afters, setAfters] = useState<FavoriteProps[]>()
 
   useEffect(() => {
-    ImmersiveMode.fullLayout(true)
     if (data) {
       setAfters(data)
     }
@@ -111,7 +109,7 @@ export function Home() {
           />
         </View>
       </ScrollView>
-      <Menu />
+      <Menu data={afters} />
     </>
   )
 }
