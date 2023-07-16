@@ -32,17 +32,16 @@ export function SplashScreen() {
             ({
               logoUrl: doc.data().logoUrl,
               description: doc.data().description,
-              hour: doc.data().hour,
-              instagramUrl: doc.data().instagramUrl,
               picsUrl: doc.data().picsUrl,
               indicator: doc.data().indicator,
               locale: doc.data().locale,
               name: doc.data().name,
-              payment: doc.data().payment,
               phone: doc.data().phone,
               stars: doc.data().stars,
               coords: doc.data().coords,
               type: doc.data().type,
+              recommendation: doc.data().recommendation,
+              schedules: doc.data().schedules,
             } as FavoriteProps),
         )
 

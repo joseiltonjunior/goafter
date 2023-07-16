@@ -40,7 +40,7 @@ export function PicsUrl({ data }: picsUrlProps) {
 
   return (
     <>
-      <View className="flex-row justify-between absolute z-10 p-4 w-full">
+      <View className="flex-row justify-between absolute z-10 p-4 w-full mt-6">
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           className="bg-gray-950/70 h-9 w-9 rounded-full items-center justify-center p-2"
@@ -73,7 +73,7 @@ export function PicsUrl({ data }: picsUrlProps) {
       <Carousel
         loop={false}
         width={size}
-        height={300}
+        height={320}
         data={data.picsUrl}
         scrollAnimationDuration={1000}
         renderItem={({ item }) => (

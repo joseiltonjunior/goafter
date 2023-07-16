@@ -44,7 +44,7 @@ export function Favorites() {
 
   return (
     <>
-      <View className="p-4 flex-1">
+      <View className="p-4 pt-10 flex-1">
         <HeaderScreen title="Favoritos" />
         <FlatList
           className="mt-8"

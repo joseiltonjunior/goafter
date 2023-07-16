@@ -1,18 +1,20 @@
 import { IconCustom } from '@components/IconCustom'
 import { Menu } from '@components/Menu'
-import { useRoute } from '@react-navigation/native'
+import { useRoute, useFocusEffect } from '@react-navigation/native'
 import { RouteParamsProps } from '@routes/routes'
 import { ReduxProps } from '@storage/index'
-
 import crashlytics from '@react-native-firebase/crashlytics'
+import ImmersiveMode from 'react-native-immersive-mode'
 
 import {
-  Linking,
   ScrollView,
   Text,
-  TouchableOpacity,
   View,
   Image,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+  Linking,
+  TouchableOpacity,
 } from 'react-native'
 
 import { useSelector } from 'react-redux'
@@ -23,14 +25,16 @@ import { Schedules } from './Schedules'
 import { calculateDistance } from '@utils/calculateDistance'
 import { formatDistance } from '@utils/formatDistance'
 import { LocationProps } from '@storage/modules/location/types'
-import { openLinkProps } from '@utils/types/openLinking'
-import { handleFormatIndicator } from '@utils/formatIndicator'
+
 import { PicsUrl } from './PicsCarousel'
+import React, { useEffect, useState } from 'react'
 
 export function AfterDetails() {
   const {
     params: { data },
   } = useRoute<RouteParamsProps<'AfterDetails'>>()
+
+  const [scrollPosition, setScrollPosition] = useState(0)
 
   const actualLocation = useSelector<ReduxProps, LocationProps>(
     (state) => state.actualLocation,
@@ -41,36 +45,49 @@ export function AfterDetails() {
     afterCoords: data.coords,
   })
 
-  function handleOpenLink({ insta, phone }: openLinkProps) {
-    let url = ''
-    let errorMessage = ''
+  useFocusEffect(() => {
+    ImmersiveMode.setBarTranslucent(true)
 
-    if (insta) {
-      errorMessage = 'Não é possível abrir o Instagram'
-      url = insta
-    } else if (phone) {
-      errorMessage = 'Não é possível abrir o WhatsApp'
-      const phoneNumber = `+55${phone}`
-      url = `whatsapp://send?phone=${phoneNumber}`
+    return () => {
+      ImmersiveMode.setBarTranslucent(false)
+    }
+  })
+
+  function handleFormatPhoneNumber(number: string): string {
+    const regex10Digitos = /^(\d{2})(\d{4})(\d{4})$/
+    const regex11Digitos = /^(\d{2})(\d{5})(\d{4})$/
+
+    if (regex10Digitos.test(number)) {
+      return number.replace(regex10Digitos, '($1) $2-$3')
+    } else if (regex11Digitos.test(number)) {
+      return number.replace(regex11Digitos, '($1) $2-$3')
     }
 
-    Linking.canOpenURL(url)
-      .then((supported) => {
-        if (supported) {
-          return Linking.openURL(url)
-        } else {
-          crashlytics().recordError({
-            message: errorMessage,
-            name: 'Linking error',
-          })
-        }
-      })
-      .catch((err) => crashlytics().recordError(err))
+    return number
   }
+
+  function handleOpenDisk(number: string): void {
+    const url = `tel:${number}`
+    Linking.openURL(url).catch((err) => crashlytics().recordError(err))
+  }
+
+  useEffect(() => {
+    const parseScroll = parseInt(scrollPosition.toString())
+
+    if (parseScroll > 250) {
+      ImmersiveMode.setBarTranslucent(false)
+    }
+  }, [scrollPosition])
 
   return (
     <>
-      <ScrollView className="bg-gray-950">
+      <ScrollView
+        className="bg-gray-950"
+        onScroll={(event: NativeSyntheticEvent<NativeScrollEvent>) => {
+          const currentPosition = event.nativeEvent.contentOffset.y
+          setScrollPosition(currentPosition)
+        }}
+      >
         <PicsUrl data={data} />
         <View>
           <View className="p-4  rounded-t-3xl bg-gray-950 -mt-8 overflow-hidden">
@@ -111,52 +128,27 @@ export function AfterDetails() {
               style={{ marginTop: 16 }}
             />
 
-            <Description
-              title="Avaliação dos clientes"
-              value={handleFormatIndicator(data.indicator)}
-              style={{ marginTop: 16 }}
-            />
-
-            <Schedules data={data.hour} />
+            <Schedules data={data.schedules} />
 
             <View className="mt-4">
               <Text className="text-lg font-semibold text-white">Telefone</Text>
-              <Text className="text-base font-normal text-gray-400">
-                {data.phone}
-              </Text>
-            </View>
-
-            <View className="mt-4">
-              <Text className="text-lg font-semibold text-white">
-                Redes sociais
-              </Text>
-              <View className="flex-row items-center gap-4 pt-1">
+              <View className="flex-row items-center justify-between">
+                <Text className="text-base font-normal text-gray-400">
+                  {handleFormatPhoneNumber(data.phone)}
+                </Text>
                 <TouchableOpacity
-                  onPress={() => handleOpenLink({ phone: data.phone })}
+                  className="bg-green-600 w-8 h-8 rounded-full items-center justify-center"
+                  hitSlop={40}
                 >
                   <IconCustom
-                    name="whatsapp"
-                    size={32}
-                    color={colors.green[600]}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => handleOpenLink({ insta: data.instagramUrl })}
-                >
-                  <IconCustom
-                    name="instagram"
-                    size={32}
-                    color={colors.rose[400]}
+                    name="phone"
+                    size={20}
+                    color={colors.white}
+                    onPress={() => handleOpenDisk(data.phone)}
                   />
                 </TouchableOpacity>
               </View>
             </View>
-
-            <Description
-              title="Formas de pagamento"
-              value={data.payment}
-              style={{ marginTop: 16 }}
-            />
 
             <View className="mt-4">
               <View className="flex-row mb-1 items-center">
