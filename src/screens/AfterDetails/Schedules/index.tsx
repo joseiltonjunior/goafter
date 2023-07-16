@@ -1,7 +1,12 @@
-import { Text, View } from 'react-native'
+import { FlatList, Text, View } from 'react-native'
 
 interface schedulesProps {
-  data: string
+  data: [
+    {
+      name: string
+      value: string
+    },
+  ]
 }
 
 export function Schedules({ data }: schedulesProps) {
@@ -11,40 +16,20 @@ export function Schedules({ data }: schedulesProps) {
         Horários de funcionamento
       </Text>
 
-      <View className="flex-row justify-between items-center">
-        <Text className="text-base font-normal text-gray-400">
-          Segunda-feira
-        </Text>
-        <Text className="text-base font-normal text-gray-400">{data}</Text>
-      </View>
-      <View className="flex-row justify-between items-center">
-        <Text className="text-base font-normal text-gray-400">Terça-feira</Text>
-        <Text className="text-base font-normal text-gray-400">{data}</Text>
-      </View>
-      <View className="flex-row justify-between items-center">
-        <Text className="text-base font-normal text-gray-400">
-          Quarta-feira
-        </Text>
-        <Text className="text-base font-normal text-gray-400">{data}</Text>
-      </View>
-      <View className="flex-row justify-between items-center">
-        <Text className="text-base font-normal text-gray-400">
-          Quinta-feira
-        </Text>
-        <Text className="text-base font-normal text-gray-400">{data}</Text>
-      </View>
-      <View className="flex-row justify-between items-center">
-        <Text className="text-base font-normal text-gray-400">Sexta-feira</Text>
-        <Text className="text-base font-normal text-gray-400">{data}</Text>
-      </View>
-      <View className="flex-row justify-between items-center">
-        <Text className="text-base font-normal text-gray-400">Sabádo</Text>
-        <Text className="text-base font-normal text-gray-400">{data}</Text>
-      </View>
-      <View className="flex-row justify-between items-center">
-        <Text className="text-base font-normal text-gray-400">Domingo</Text>
-        <Text className="text-base font-normal text-gray-400">{data}</Text>
-      </View>
+      <FlatList
+        scrollEnabled={false}
+        data={data}
+        renderItem={({ item }) => (
+          <View className="flex-row justify-between items-center">
+            <Text className="text-base font-normal text-gray-400">
+              {item.name[0].toUpperCase() + item.name.substring(1)}
+            </Text>
+            <Text className="text-base font-normal text-gray-400">
+              {item.value}
+            </Text>
+          </View>
+        )}
+      />
     </View>
   )
 }

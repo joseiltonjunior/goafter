@@ -11,6 +11,7 @@ import { Categories } from '@components/Categories'
 import { HeaderSection } from '@components/HeaderSection'
 import { RouteParamsProps, StackNavigationProps } from '@routes/routes'
 import { useNavigation, useRoute } from '@react-navigation/native'
+import ImmersiveMode from 'react-native-immersive-mode'
 
 export function Home() {
   const favorites = useSelector<ReduxProps, FavoriteProps[]>(
@@ -26,6 +27,7 @@ export function Home() {
   const [afters, setAfters] = useState<FavoriteProps[]>()
 
   useEffect(() => {
+    ImmersiveMode.fullLayout(true)
     if (data) {
       setAfters(data)
     }
@@ -38,7 +40,7 @@ export function Home() {
   return (
     <>
       <ScrollView className="bg-gray-950">
-        <View className="p-4">
+        <View className="p-4 pt-10">
           <HeaderSection style={{ marginBottom: 8 }} title="Categorias" />
           <Categories data={afters} />
           {favorites.length > 0 && (
@@ -54,15 +56,17 @@ export function Home() {
 
           <HeaderSection
             style={{ marginBottom: 8, marginTop: 24 }}
-            title="Mais indicados"
+            title="Indicação do app"
             viewMore={() =>
               navigation.navigate('ListAfters', {
-                key: 'Mais indicados',
-                data: afters.filter((item) => item.indicator >= 30),
+                key: 'Indicação do app',
+                data: afters.filter((item) => item.recommendation === true),
               })
             }
           />
-          <BoxCarousel data={afters.filter((item) => item.indicator >= 30)} />
+          <BoxCarousel
+            data={afters.filter((item) => item.recommendation === true)}
+          />
 
           <HeaderSection
             style={{ marginBottom: 8, marginTop: 16 }}
