@@ -40,7 +40,7 @@ export function PicsUrl({ data }: picsUrlProps) {
 
   return (
     <>
-      <View className="flex-row justify-between absolute z-10 p-4 w-full mt-6">
+      <View className="flex-row justify-between absolute z-10 p-4 w-full mt-10">
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           className="bg-gray-950/70 h-9 w-9 rounded-full items-center justify-center p-2"
@@ -78,7 +78,7 @@ export function PicsUrl({ data }: picsUrlProps) {
         scrollAnimationDuration={1000}
         renderItem={({ item }) => (
           <Image
-            className="flex-1 w-auto"
+            className="flex-1 w-auto bg-gray-500"
             source={{
               uri: `${item}`,
             }}

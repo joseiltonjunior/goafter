@@ -83,7 +83,7 @@ export function FindAfters() {
 
   return (
     <>
-      <View className="p-4 pt-10 flex-1">
+      <View className="p-4 mt-10 flex-1">
         <HeaderScreen title={key} />
 
         <Input

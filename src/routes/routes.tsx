@@ -14,6 +14,8 @@ import { AfterDetails } from '@screens/AfterDetails'
 import { ListAfters } from '@screens/ListAfters'
 import { AccessLocation } from '@screens/AccessLocation'
 import { FindAfters } from '@screens/FindAfters'
+import { SignIn } from '@screens/SignIn'
+import { Register } from '@screens/Register'
 
 import { FavoriteProps } from '@storage/modules/favorites/types'
 
@@ -38,6 +40,8 @@ type RootStackParamList = {
     data: FavoriteProps[]
     key: string
   }
+  SignIn: undefined
+  Register: undefined
 }
 
 export type StackNavigationProps = StackNavigationProp<RootStackParamList>
@@ -77,6 +81,8 @@ export function Routes() {
       <Stack.Screen name="ListAfters" component={ListAfters} />
       <Stack.Screen name="AccessLocation" component={AccessLocation} />
       <Stack.Screen name="FindAfters" component={FindAfters} />
+      <Stack.Screen name="SignIn" component={SignIn} />
+      <Stack.Screen name="Register" component={Register} />
     </Stack.Navigator>
   )
 }

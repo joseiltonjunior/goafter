@@ -38,7 +38,7 @@ export function Home() {
   return (
     <>
       <ScrollView className="bg-gray-950">
-        <View className="p-4 pt-10">
+        <View className="p-4 mt-10">
           <HeaderSection style={{ marginBottom: 8 }} title="Categorias" />
           <Categories data={afters} />
           {favorites.length > 0 && (
@@ -46,7 +46,9 @@ export function Home() {
               <HeaderSection
                 style={{ marginBottom: 8, marginTop: 24 }}
                 title="Meus favoritos"
-                viewMore={() => navigation.navigate('Favorites')}
+                viewMore={() =>
+                  navigation.navigate('Favorites', { data: afters })
+                }
               />
               <RoundedCarousel data={favorites} />
             </>

@@ -4,6 +4,13 @@ module.exports = {
     'react-native-reanimated/plugin',
     'nativewind/babel',
     [
+      'module:react-native-dotenv',
+      {
+        moduleName: '@env',
+        path: '.env',
+      },
+    ],
+    [
       'module-resolver',
       {
         root: ['./src'],

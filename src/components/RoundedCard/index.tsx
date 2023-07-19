@@ -12,10 +12,10 @@ export function RoundedCard({ name, pic, onAction }: CardProps) {
   return (
     <TouchableOpacity activeOpacity={0.6} onPress={onAction} className="mr-4">
       <Image
-        className="h-24 rounded-full"
+        className="h-24 rounded-full bg-gray-500"
         alt="role pic"
         source={{
-          uri: `${pic}`,
+          uri: pic,
         }}
       />
       <Text

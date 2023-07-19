@@ -49,7 +49,7 @@ export function Favorites() {
 
   return (
     <>
-      <View className="p-4 pt-10 flex-1">
+      <View className="p-4 mt-10 flex-1">
         <HeaderScreen title="Favoritos" />
         <FlatList
           className="mt-8"
@@ -80,7 +80,10 @@ export function Favorites() {
             <TouchableOpacity
               activeOpacity={0.5}
               onPress={() =>
-                navigation.navigate('AfterDetails', { selected: after.item })
+                navigation.navigate('AfterDetails', {
+                  selected: after.item,
+                  data,
+                })
               }
             >
               <ImageBackground

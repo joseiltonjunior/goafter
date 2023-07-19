@@ -26,7 +26,7 @@ export function Card({ name, pic, stars, onAction }: CardProps) {
       <View>
         <View>
           <ImageBackground
-            className="h-32 rounded-md overflow-hidden"
+            className="h-32 rounded-md overflow-hidden bg-gray-500"
             alt="role pic"
             source={{
               uri: `${pic}`,

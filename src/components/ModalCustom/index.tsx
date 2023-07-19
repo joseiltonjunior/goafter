@@ -37,7 +37,7 @@ export function ModalCustom({
 }: ModalProps) {
   return (
     <Modal animationType="slide" transparent visible={show}>
-      <View className="flex-1 bg-gray-950/80 justify-center items-center p-4">
+      <View className="flex-1 bg-gray-950/80 justify-center items-center px-8">
         <View className="bg-gray-500 w-full rounded-2xl p-4">
           <Text className="font-bold text-white text-lg text-center">
             {title}
