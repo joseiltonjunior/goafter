@@ -14,11 +14,12 @@ import { handleVisibleSideMenu } from '@storage/modules/sideMenu/actions'
 import { UserPic } from './UserPic'
 import { Options } from './Options'
 import { ModalCustom } from '@components/ModalCustom'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProps } from '@routes/routes'
 import { UserProps } from '@storage/modules/user/types'
 import { setSaveUser } from '@storage/modules/user/actions'
+import NetInfo from '@react-native-community/netinfo'
 
 import auth from '@react-native-firebase/auth'
 
@@ -26,6 +27,7 @@ export function SideMenu() {
   const size = Dimensions.get('window').height + 18
   const [exitApp, setExitApp] = useState(false)
   const [exitAccount, setExitAccount] = useState(false)
+  const [connectionInternet, setConnectionInternet] = useState(true)
 
   const dispatch = useDispatch()
 
@@ -36,6 +38,18 @@ export function SideMenu() {
   const user = useSelector<ReduxProps, UserProps>((state) => state.user)
 
   const navigation = useNavigation<StackNavigationProps>()
+
+  const CheckNetwork = useCallback(() => {
+    NetInfo.fetch().then((state) => {
+      if (!state.isConnected) {
+        setConnectionInternet(false)
+      }
+    })
+  }, [])
+
+  useEffect(() => {
+    CheckNetwork()
+  }, [CheckNetwork, navigation])
 
   function handleSignOut() {
     auth()
@@ -122,31 +136,33 @@ export function SideMenu() {
           </View>
 
           <View className="pl-4 pt-8">
-            {/* <Options icon="handshake-o" title="Colabore" /> */}
-            {user.uid ? (
-              <Options
-                icon="sign-out"
-                title="Sair da conta"
-                onPress={() => {
-                  setExitAccount(true)
-                }}
-              />
-            ) : (
-              <Options
-                icon="sign-in"
-                title="Acessar conta"
-                onPress={() => {
-                  dispatch(handleVisibleSideMenu({ isVisible: false }))
-                  navigation.navigate('SignIn')
-                }}
-              />
+            {connectionInternet && (
+              <>
+                {user.uid ? (
+                  <Options
+                    icon="sign-out"
+                    title="Sair da conta"
+                    onPress={() => {
+                      setExitAccount(true)
+                    }}
+                  />
+                ) : (
+                  <Options
+                    icon="sign-in"
+                    title="Acessar conta"
+                    onPress={() => {
+                      dispatch(handleVisibleSideMenu({ isVisible: false }))
+                      navigation.navigate('SignIn')
+                    }}
+                  />
+                )}
+              </>
             )}
-            {/* <Options icon="info-circle" title="Sobre o app" /> */}
+
             <Options
               icon="times-circle"
               title="Sair do app"
               onPress={() => {
-                // dispatch(handleVisibleSideMenu({ isVisible: false }))
                 setExitApp(true)
               }}
             />
