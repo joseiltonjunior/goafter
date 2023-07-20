@@ -28,10 +28,11 @@ import { LocationProps } from '@storage/modules/location/types'
 
 import { PicsUrl } from './PicsCarousel'
 import React, { useEffect, useState } from 'react'
+import { UserProps } from '@storage/modules/user/types'
 
 export function AfterDetails() {
   const {
-    params: { selected, data },
+    params: { selected },
   } = useRoute<RouteParamsProps<'AfterDetails'>>()
 
   const [scrollPosition, setScrollPosition] = useState(0)
@@ -39,6 +40,8 @@ export function AfterDetails() {
   const actualLocation = useSelector<ReduxProps, LocationProps>(
     (state) => state.actualLocation,
   )
+
+  const user = useSelector<ReduxProps, UserProps>((state) => state.user)
 
   const distance = calculateDistance({
     actualCoords: actualLocation,
@@ -88,7 +91,7 @@ export function AfterDetails() {
           setScrollPosition(currentPosition)
         }}
       >
-        <PicsUrl data={selected} />
+        <PicsUrl data={selected} user={user} />
         <View>
           <View className="p-4  rounded-t-3xl bg-gray-950 -mt-8 overflow-hidden">
             <View className="flex-row items-center gap-2">
@@ -178,7 +181,7 @@ export function AfterDetails() {
           </View>
         </View>
       </ScrollView>
-      <Menu data={data} />
+      <Menu />
     </>
   )
 }

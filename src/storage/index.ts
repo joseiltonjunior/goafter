@@ -1,17 +1,17 @@
 import { legacy_createStore as createStore } from 'redux'
 import rootReducer from './modules/rootReducer'
 import { LocationProps } from './modules/location/types'
-import { FavoriteProps } from './modules/favorites/types'
 
 import { persistStore, persistReducer } from 'redux-persist'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { SideMenuProps } from './modules/sideMenu/types'
 import { UserProps } from './modules/user/types'
+import { AfterProps } from '@utils/types/after'
 
 export interface ReduxProps {
   actualLocation: LocationProps
-  favorites: FavoriteProps[]
+  afters: AfterProps[]
   sideMenu: SideMenuProps
   user: UserProps
 }

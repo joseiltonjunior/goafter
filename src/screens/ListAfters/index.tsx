@@ -4,45 +4,38 @@ import { Menu } from '@components/Menu'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { RouteParamsProps, StackNavigationProps } from '@routes/routes'
 import { ReduxProps } from '@storage/index'
-import {
-  setAddFavorites,
-  setRemoveFavorites,
-} from '@storage/modules/favorites/actions'
-import { FavoriteProps } from '@storage/modules/favorites/types'
+
 import { LocationProps } from '@storage/modules/location/types'
 import { VerifyFavorite } from '@utils/verifyFavorite'
 import { FlatList, Image, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import colors from 'tailwindcss/colors'
 import { formatDistance } from '@utils/formatDistance'
 import { calculateDistance } from '@utils/calculateDistance'
+import { UserProps } from '@storage/modules/user/types'
+import { useFavorites } from '@hooks/useFavorites'
+import { AfterProps } from '@utils/types/after'
+import { useCallback, useEffect, useState } from 'react'
 
 export function ListAfters() {
   const {
-    params: { key, data },
+    params: { key },
   } = useRoute<RouteParamsProps<'ListAfters'>>()
   const navigation = useNavigation<StackNavigationProps>()
-  const favorites = useSelector<ReduxProps, FavoriteProps[]>(
-    (state) => state.favorites,
-  )
+
+  const [listAfters, setListAfters] = useState<AfterProps[]>()
+
+  const { addFavorite, removeFavorite } = useFavorites()
 
   const actualCoords = useSelector<ReduxProps, LocationProps>(
     (state) => state.actualLocation,
   )
 
-  const dispatch = useDispatch()
+  const afters = useSelector<ReduxProps, AfterProps[]>((state) => state.afters)
 
-  function removeFavorite(data: FavoriteProps) {
-    if (!data) return
-    dispatch(setRemoveFavorites(data))
-  }
+  const user = useSelector<ReduxProps, UserProps>((state) => state.user)
 
-  function addFavorite(data: FavoriteProps) {
-    if (!data) return
-
-    dispatch(setAddFavorites(data))
-  }
   function handleDistance(afterCoords: LocationProps) {
     const distance = calculateDistance({
       actualCoords,
@@ -52,18 +45,32 @@ export function ListAfters() {
     return formatDistance(distance)
   }
 
+  const handleDynamicAfterList = useCallback(() => {
+    switch (key) {
+      case 'Indicação':
+        return setListAfters(afters.filter((item) => item.recommendation))
+
+      default:
+        return setListAfters(afters.filter((item) => item.locale.includes(key)))
+    }
+  }, [afters, key])
+
+  useEffect(() => {
+    handleDynamicAfterList()
+  }, [handleDynamicAfterList])
+
   return (
     <>
       <View className="p-4 mt-10 flex-1">
         <HeaderScreen title={key} />
         <FlatList
           className="mt-4"
-          data={data}
+          data={listAfters}
           renderItem={({ item }) => (
             <TouchableOpacity
               activeOpacity={0.5}
               onPress={() =>
-                navigation.navigate('AfterDetails', { selected: item, data })
+                navigation.navigate('AfterDetails', { selected: item })
               }
               className="flex-row items-center gap-2 my-1"
             >
@@ -108,33 +115,43 @@ export function ListAfters() {
                 </View>
               </View>
 
-              <TouchableOpacity
-                onPress={() => {
-                  if (VerifyFavorite({ favorites, name: item.name })) {
-                    removeFavorite(item)
-                  } else {
-                    addFavorite(item)
-                  }
-                }}
-                hitSlop={20}
-                className="flex-row items-center justify-center bg-gray-500 p-2 rounded-full"
-              >
-                <IconCustom
-                  name="heart"
-                  size={16}
-                  color={
-                    VerifyFavorite({ favorites, name: item.name })
-                      ? '#e3342f'
-                      : '#e2e8f0'
-                  }
-                />
-              </TouchableOpacity>
+              {user.uid && (
+                <TouchableOpacity
+                  onPress={() => {
+                    if (
+                      VerifyFavorite({
+                        favorites: user.favoritesAfters,
+                        name: item.name,
+                      })
+                    ) {
+                      removeFavorite({ name: item.name, user })
+                    } else {
+                      addFavorite({ name: item.name, user })
+                    }
+                  }}
+                  hitSlop={20}
+                  className="flex-row items-center justify-center bg-gray-500 p-2 rounded-full"
+                >
+                  <IconCustom
+                    name="heart"
+                    size={16}
+                    color={
+                      VerifyFavorite({
+                        favorites: user.favoritesAfters,
+                        name: item.name,
+                      })
+                        ? '#e3342f'
+                        : '#e2e8f0'
+                    }
+                  />
+                </TouchableOpacity>
+              )}
             </TouchableOpacity>
           )}
         />
       </View>
 
-      <Menu data={data} />
+      <Menu />
     </>
   )
 }

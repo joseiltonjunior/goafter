@@ -1,7 +1,7 @@
-import { useNavigation, useRoute } from '@react-navigation/native'
-import { RouteParamsProps, StackNavigationProps } from '@routes/routes'
+import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProps } from '@routes/routes'
 import { ReduxProps } from '@storage/index'
-import { FavoriteProps } from '@storage/modules/favorites/types'
+
 import {
   FlatList,
   Image,
@@ -10,42 +10,23 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import documentIcon from '@assets/documento.png'
 import { IconCustom } from '@components/IconCustom'
 import { VerifyFavorite } from '@utils/verifyFavorite'
-import {
-  setAddFavorites,
-  setRemoveFavorites,
-} from '@storage/modules/favorites/actions'
 
 import { HeaderScreen } from '@components/HeaderScreen'
 import { Menu } from '@components/Menu'
+import { UserProps } from '@storage/modules/user/types'
+import { useFavorites } from '@hooks/useFavorites'
 
 export function Favorites() {
-  const favorites = useSelector<ReduxProps, FavoriteProps[]>(
-    (state) => state.favorites,
-  )
+  const user = useSelector<ReduxProps, UserProps>((state) => state.user)
 
-  const {
-    params: { data },
-  } = useRoute<RouteParamsProps<'Favorites'>>()
-
-  const dispatch = useDispatch()
+  const { addFavorite, removeFavorite, favoriteList } = useFavorites()
 
   const navigation = useNavigation<StackNavigationProps>()
-
-  function removeFavorite(data: FavoriteProps) {
-    if (!data) return
-    dispatch(setRemoveFavorites(data))
-  }
-
-  function addFavorite(data: FavoriteProps) {
-    if (!data) return
-
-    dispatch(setAddFavorites(data))
-  }
 
   return (
     <>
@@ -53,7 +34,7 @@ export function Favorites() {
         <HeaderScreen title="Favoritos" />
         <FlatList
           className="mt-8"
-          data={favorites}
+          data={favoriteList()}
           ListEmptyComponent={() => (
             <View className="items-center justify-center mt-[20%]">
               <Image
@@ -66,40 +47,44 @@ export function Favorites() {
               </Text>
 
               <TouchableOpacity
-                onPress={() => navigation.navigate('Home', {})}
+                onPress={() => navigation.navigate('Home')}
                 className="mt-20 bg-gray-500 w-full p-4 rounded-md items-center justify-center"
                 activeOpacity={0.5}
               >
                 <Text className="font-bold text-base text-white">
-                  Voltar para a home
+                  Adicionar
                 </Text>
               </TouchableOpacity>
             </View>
           )}
-          renderItem={(after) => (
+          renderItem={({ item }) => (
             <TouchableOpacity
               activeOpacity={0.5}
               onPress={() =>
                 navigation.navigate('AfterDetails', {
-                  selected: after.item,
-                  data,
+                  selected: item,
                 })
               }
             >
               <ImageBackground
-                source={{ uri: after.item.picsUrl[0] }}
+                source={{ uri: item.picsUrl[0] }}
                 className="h-24 rounded-md overflow-hidden justify-between p-4 items-center flex-row"
               >
                 <Text className="text-lg font-medium text-white bg-gray-950/70 px-2 rounded-md">
-                  {after.item.name}
+                  {item.name}
                 </Text>
 
                 <TouchableOpacity
                   onPress={() => {
-                    if (VerifyFavorite({ favorites, name: after.item.name })) {
-                      removeFavorite(after.item)
+                    if (
+                      VerifyFavorite({
+                        favorites: user.favoritesAfters,
+                        name: item.name,
+                      })
+                    ) {
+                      removeFavorite({ name: item.name, user })
                     } else {
-                      addFavorite(after.item)
+                      addFavorite({ name: item.name, user })
                     }
                   }}
                   className="bg-gray-950/70 h-9 w-9 rounded-full items-center justify-center p-2"
@@ -109,7 +94,10 @@ export function Favorites() {
                     name="heart"
                     size={16}
                     color={
-                      VerifyFavorite({ favorites, name: after.item.name })
+                      VerifyFavorite({
+                        favorites: user.favoritesAfters,
+                        name: item.name,
+                      })
                         ? '#e3342f'
                         : '#e2e8f0'
                     }
@@ -121,7 +109,7 @@ export function Favorites() {
           ItemSeparatorComponent={() => <View className="h-4" />}
         />
       </View>
-      <Menu data={data} />
+      <Menu />
     </>
   )
 }

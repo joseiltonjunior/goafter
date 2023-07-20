@@ -1,6 +1,6 @@
 import Carousel from 'react-native-reanimated-carousel'
 import { Card } from '../Card'
-import { FavoriteProps } from '@storage/modules/favorites/types'
+import { FavoriteProps } from '@storage/modules/afters/types'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProps } from '@routes/routes'
 

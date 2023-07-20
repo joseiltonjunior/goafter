@@ -85,10 +85,17 @@ export function Register() {
                 displayName: name,
                 photoURL,
                 uid,
+                favoritesAfters: [],
               })
               .then(() => {
                 dispatch(
-                  setSaveUser({ email, displayName: name, photoURL, uid }),
+                  setSaveUser({
+                    email,
+                    displayName: name,
+                    photoURL,
+                    uid,
+                    favoritesAfters: [],
+                  }),
                 )
                 navigation.navigate('Home', {})
               })
@@ -101,6 +108,7 @@ export function Register() {
           })
       })
       .catch((error) => {
+        setIsLoading(false)
         if (error.code === 'auth/email-already-in-use') {
           setError('email', { message: '* E-mail já está em uso!' })
         }
@@ -109,7 +117,6 @@ export function Register() {
           setError('email', { message: '* E-mail inválido!' })
         }
       })
-      .finally(() => setIsLoading(false))
   }
 
   return (

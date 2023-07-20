@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { Item } from './Item'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProps } from '@routes/routes'
-import { FavoriteProps } from '@storage/modules/favorites/types'
+import { FavoriteProps } from '@storage/modules/afters/types'
 
 interface categoriesProps {
   data: FavoriteProps[]
@@ -38,17 +38,11 @@ export function Categories({ data }: categoriesProps) {
       </View>
 
       <View className="mt-3" style={{ flexDirection: 'row', gap: 12 }}>
-        <Item image={categoriesImages.winebarImg} title="Vinhos" small />
-        <Item image={categoriesImages.mercadoImg} title="Mercados" small />
-        <Item
-          image={categoriesImages.cervejariaImg}
-          title="Cervejarias"
-          small
-        />
+        <Item image={categoriesImages.mercadoImg} title="Eventos" />
+
         <Item
           image={categoriesImages.pubImg}
           title="Pubs"
-          small
           onAction={() => {
             navigation.navigate('ListAfters', {
               key: 'Pubs',

@@ -25,6 +25,7 @@ import auth from '@react-native-firebase/auth'
 export function SideMenu() {
   const size = Dimensions.get('window').height + 18
   const [exitApp, setExitApp] = useState(false)
+  const [exitAccount, setExitAccount] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -46,6 +47,7 @@ export function SideMenu() {
             email: null,
             photoURL: null,
             uid: '',
+            favoritesAfters: [],
           }),
         )
       })
@@ -66,6 +68,22 @@ export function SideMenu() {
           actionCancel() {
             setExitApp(false)
             BackHandler.exitApp()
+          },
+        }}
+      />
+      <ModalCustom
+        title="Já vai?"
+        description="Você realmente deseja sair da sua conta?"
+        show={exitAccount}
+        twoActions={{
+          textConfirm: 'Cancelar',
+          actionConfirm() {
+            setExitAccount(false)
+          },
+          textCancel: 'Sair',
+          actionCancel() {
+            setExitAccount(false)
+            handleSignOut()
           },
         }}
       />
@@ -110,7 +128,7 @@ export function SideMenu() {
                 icon="sign-out"
                 title="Sair da conta"
                 onPress={() => {
-                  handleSignOut()
+                  setExitAccount(true)
                 }}
               />
             ) : (
@@ -128,7 +146,7 @@ export function SideMenu() {
               icon="times-circle"
               title="Sair do app"
               onPress={() => {
-                dispatch(handleVisibleSideMenu({ isVisible: false }))
+                // dispatch(handleVisibleSideMenu({ isVisible: false }))
                 setExitApp(true)
               }}
             />

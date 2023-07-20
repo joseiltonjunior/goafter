@@ -1,12 +1,10 @@
-import { FavoriteProps } from '@storage/modules/favorites/types'
-
 interface verifyFavoriteProps {
-  favorites: FavoriteProps[]
+  favorites: string[]
   name: string
 }
 
 export function VerifyFavorite({ favorites, name }: verifyFavoriteProps) {
-  const filter = favorites.find((item) => item.name === name)
+  const filter = favorites.find((item) => item === name)
 
   return !!filter
 }

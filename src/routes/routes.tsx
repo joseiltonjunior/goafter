@@ -16,30 +16,20 @@ import { AccessLocation } from '@screens/AccessLocation'
 import { FindAfters } from '@screens/FindAfters'
 import { SignIn } from '@screens/SignIn'
 import { Register } from '@screens/Register'
-
-import { FavoriteProps } from '@storage/modules/favorites/types'
+import { AfterProps } from '@utils/types/after'
 
 type RootStackParamList = {
   Splash: undefined
-  Home: {
-    data?: FavoriteProps[]
-  }
+  Home: undefined
   AfterDetails: {
-    selected: FavoriteProps
-    data?: FavoriteProps[]
+    selected: AfterProps
   }
-  Favorites: {
-    data?: FavoriteProps[]
-  }
+  Favorites: undefined
   ListAfters: {
     key: string
-    data: FavoriteProps[]
   }
   AccessLocation: undefined
-  FindAfters: {
-    data: FavoriteProps[]
-    key: string
-  }
+  FindAfters: undefined
   SignIn: undefined
   Register: undefined
 }

@@ -4,9 +4,10 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 import { useSelector } from 'react-redux'
 import { ReduxProps } from '@storage/index'
-import { FavoriteProps } from '@storage/modules/favorites/types'
+
 import { ImageBackground, Text, TouchableOpacity, View } from 'react-native'
 import { VerifyFavorite } from '@utils/verifyFavorite'
+import { UserProps } from '@storage/modules/user/types'
 
 interface CardProps {
   name: string
@@ -17,9 +18,7 @@ interface CardProps {
 }
 
 export function Card({ name, pic, stars, onAction }: CardProps) {
-  const favorites = useSelector<ReduxProps, FavoriteProps[]>(
-    (state) => state.favorites,
-  )
+  const user = useSelector<ReduxProps, UserProps>((state) => state.user)
 
   return (
     <TouchableOpacity activeOpacity={0.6} onPress={onAction} className="mr-4">
@@ -46,7 +45,7 @@ export function Card({ name, pic, stars, onAction }: CardProps) {
                     name="heart"
                     size={12}
                     color={
-                      VerifyFavorite({ favorites, name })
+                      VerifyFavorite({ favorites: user.favoritesAfters, name })
                         ? '#e3342f'
                         : '#e2e8f0'
                     }

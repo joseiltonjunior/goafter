@@ -3,4 +3,5 @@ export interface UserProps {
   email: string | null
   displayName: string | null
   uid: string
+  favoritesAfters: string[]
 }

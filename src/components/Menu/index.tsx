@@ -2,19 +2,19 @@ import { View } from 'react-native'
 import { ButtonMenu } from './ButtonMenu'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProps } from '@routes/routes'
-import { FavoriteProps } from '@storage/modules/favorites/types'
+
 import { useDispatch, useSelector } from 'react-redux'
 import { handleVisibleSideMenu } from '@storage/modules/sideMenu/actions'
 
 import { ReduxProps } from '@storage/index'
 import { SideMenuProps } from '@storage/modules/sideMenu/types'
 
-interface menuProps {
-  data?: FavoriteProps[]
-}
+import { UserProps } from '@storage/modules/user/types'
 
-export function Menu({ data }: menuProps) {
+export function Menu() {
   const navigation = useNavigation<StackNavigationProps>()
+
+  const user = useSelector<ReduxProps, UserProps>((state) => state.user)
 
   const sideMenu = useSelector<ReduxProps, SideMenuProps>(
     (state) => state.sideMenu,
@@ -29,27 +29,29 @@ export function Menu({ data }: menuProps) {
         title="Início"
         onAction={() => {
           dispatch(handleVisibleSideMenu({ isVisible: false }))
-          navigation.navigate('Home', {})
+          navigation.navigate('Home')
         }}
       />
-      {data && (
+
+      <ButtonMenu
+        icon="search"
+        title="Busca"
+        onAction={() => {
+          dispatch(handleVisibleSideMenu({ isVisible: false }))
+          navigation.navigate('FindAfters')
+        }}
+      />
+
+      {user.uid && (
         <ButtonMenu
-          icon="search"
-          title="Busca"
+          icon="heart"
+          title="Favoritos"
           onAction={() => {
             dispatch(handleVisibleSideMenu({ isVisible: false }))
-            navigation.navigate('FindAfters', { data, key: 'Buscar Afters' })
+            navigation.navigate('Favorites')
           }}
         />
       )}
-      <ButtonMenu
-        icon="heart"
-        title="Favoritos"
-        onAction={() => {
-          dispatch(handleVisibleSideMenu({ isVisible: false }))
-          navigation.navigate('Favorites', { data })
-        }}
-      />
       <ButtonMenu
         icon="navicon"
         title="Menu"

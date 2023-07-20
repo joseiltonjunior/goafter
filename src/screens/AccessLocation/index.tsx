@@ -114,7 +114,7 @@ export function AccessLocation() {
         <Image source={locationIcon} alt="map icon" className="mt-12" />
 
         <Button
-          className="mt-12 w-full bg-green-600"
+          className="mt-12 w-full"
           activeOpacity={0.5}
           isLoading={loading}
           onPress={() => {

@@ -8,7 +8,7 @@ import { StackNavigationProps } from '@routes/routes'
 import crashlytics from '@react-native-firebase/crashlytics'
 
 import firestore from '@react-native-firebase/firestore'
-import { FavoriteProps } from '@storage/modules/favorites/types'
+
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Geolocation from '@react-native-community/geolocation'
 import { ModalCustom } from '@components/ModalCustom'
@@ -16,6 +16,8 @@ import { useDispatch } from 'react-redux'
 import { setActualLocation } from '@storage/modules/location/actions'
 import ImmersiveMode from 'react-native-immersive-mode'
 import { handleVisibleSideMenu } from '@storage/modules/sideMenu/actions'
+import { setAfters } from '@storage/modules/afters/actions'
+import { AfterProps } from '@utils/types/after'
 
 const size = Dimensions.get('window').width * 1
 
@@ -44,23 +46,22 @@ export function SplashScreen() {
               type: doc.data().type,
               recommendation: doc.data().recommendation,
               schedules: doc.data().schedules,
-            } as FavoriteProps),
+            } as AfterProps),
         )
+
+        dispatch(setAfters(aftersResponses))
 
         navigation.reset({
           index: 0,
           routes: [
             {
               name: 'Home',
-              params: {
-                data: aftersResponses,
-              },
             },
           ],
         })
       })
       .catch((err) => crashlytics().recordError(err))
-  }, [navigation])
+  }, [dispatch, navigation])
 
   const handleFetchCurrentLocation = useCallback(() => {
     Geolocation.getCurrentPosition(

@@ -1,4 +1,4 @@
-export interface FavoriteProps {
+export interface AfterProps {
   locale: string
   name: string
   stars: number

@@ -6,6 +6,7 @@ const INITIAL_STATE: UserProps = {
   email: '',
   photoURL: '',
   uid: '',
+  favoritesAfters: [],
 }
 
 const user: Reducer<UserProps> = (state = INITIAL_STATE, action) => {
