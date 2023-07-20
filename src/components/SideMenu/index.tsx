@@ -76,15 +76,15 @@ export function SideMenu() {
         style={{ height: size }}
       >
         <View className="bg-gray-950 h-full w-80 pt-8">
-          <View className="pt-8">
-            <UserPic userPicUrl={user.photoURL} />
+          <View className="pt-12">
+            <UserPic user={user} />
             {user.displayName && (
               <Text className="ml-auto mr-auto mt-2 font-bold text-white text-lg">
                 {user.displayName}
               </Text>
             )}
             {user.email && (
-              <Text className="ml-auto mr-auto mt-2 font-normal text-gray-400 text-md">
+              <Text className="ml-auto mr-auto font-normal text-gray-400 text-md">
                 {user.email}
               </Text>
             )}
@@ -103,8 +103,8 @@ export function SideMenu() {
             </TouchableOpacity>
           </View>
 
-          <View className="pl-6 pt-4">
-            <Options icon="handshake-o" title="Colabore" />
+          <View className="pl-4 pt-8">
+            {/* <Options icon="handshake-o" title="Colabore" /> */}
             {user.uid ? (
               <Options
                 icon="sign-out"
@@ -123,9 +123,9 @@ export function SideMenu() {
                 }}
               />
             )}
-            <Options icon="info-circle" title="Sobre o app" />
+            {/* <Options icon="info-circle" title="Sobre o app" /> */}
             <Options
-              icon="sign-out"
+              icon="times-circle"
               title="Sair do app"
               onPress={() => {
                 dispatch(handleVisibleSideMenu({ isVisible: false }))

@@ -1,5 +1,6 @@
-import { Image, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Keyboard, Text, TouchableOpacity, View } from 'react-native'
 import auth from '@react-native-firebase/auth'
+import firestore from '@react-native-firebase/firestore'
 import { InputForm } from '@components/InputForm'
 import { useForm } from 'react-hook-form'
 import logoAfter from '@assets/after.png'
@@ -13,6 +14,8 @@ import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProps } from '@routes/routes'
 import { useDispatch } from 'react-redux'
 import { setSaveUser } from '@storage/modules/user/actions'
+import { useState } from 'react'
+import { UserProps } from '@storage/modules/user/types'
 
 interface FormDataProps {
   email: string
@@ -43,19 +46,40 @@ export function SignIn() {
 
   const dispatch = useDispatch()
 
+  const [isLoading, setIsLoading] = useState(false)
+
   const navigation = useNavigation<StackNavigationProps>()
 
-  function handleSignIn(data: FormDataProps) {
+  async function handleFetchDataUser(userUid: string) {
+    firestore()
+      .collection('users')
+      .doc(userUid)
+      .get()
+      .then((querySnapshot) => {
+        const user = querySnapshot.data() as UserProps
+        dispatch(setSaveUser(user))
+        navigation.navigate('Home', {})
+      })
+      .catch((error) =>
+        console.log('Erro ao buscar os dados do usuário no Firestore:', error),
+      )
+      .finally(() => setIsLoading(false))
+  }
+
+  function handleAuthenticate(data: FormDataProps) {
+    Keyboard.dismiss()
+    setIsLoading(true)
     auth()
       .signInWithEmailAndPassword(data.email, data.password)
       .then((result) => {
-        const { email, displayName, photoURL, uid } = result.user
-        dispatch(setSaveUser({ email, displayName, photoURL, uid }))
-        navigation.navigate('Home', {})
+        const { uid } = result.user
+
+        handleFetchDataUser(uid)
       })
       .catch(() => {
         setError('email', { message: '* credenciais inválidas' })
         setError('password', { message: '* credenciais inválidas' })
+        setIsLoading(false)
       })
   }
 
@@ -84,9 +108,10 @@ export function SignIn() {
             control={control}
           />
           <Button
-            onPress={handleSubmit(handleSignIn)}
+            onPress={handleSubmit(handleAuthenticate)}
             activeOpacity={0.4}
             className="mt-8"
+            isLoading={isLoading}
           >
             Entrar
           </Button>

@@ -87,7 +87,7 @@ export function FindAfters() {
         <HeaderScreen title={key} />
 
         <Input
-          className="mt-4"
+          className="mt-8"
           placeholder="Onde é o After?"
           onChangeText={(text) => {
             handleFilterAfters(text)

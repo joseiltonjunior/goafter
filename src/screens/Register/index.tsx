@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Keyboard,
 } from 'react-native'
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
@@ -22,6 +23,7 @@ import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProps } from '@routes/routes'
 import { useDispatch } from 'react-redux'
 import { setSaveUser } from '@storage/modules/user/actions'
+import { useState } from 'react'
 
 interface FormDataProps {
   email: string
@@ -33,7 +35,14 @@ interface FormDataProps {
 const schema = z.object({
   name: z.string().nonempty('* nome é obrigatório'),
   email: z.string().email('* email inválido'),
-  password: z.string().min(6, '* mínimo 6 caracteres'),
+  password: z
+    .string()
+    .min(6, '* mínimo 6 caracteres')
+    .min(6, '* mínimo 6 caracteres')
+    .refine(
+      (value) => /^(?=.*[A-Za-z])(?=.*\d)/.test(value),
+      '* deve conter letras e números',
+    ),
 })
 
 export function Register() {
@@ -49,9 +58,13 @@ export function Register() {
 
   const dispatch = useDispatch()
 
+  const [isLoading, setIsLoading] = useState(false)
+
   const navigation = useNavigation<StackNavigationProps>()
 
   function handleSignIn(data: FormDataProps) {
+    Keyboard.dismiss()
+    setIsLoading(true)
     auth()
       .createUserWithEmailAndPassword(data.email, data.password)
       .then((result) => {
@@ -96,6 +109,7 @@ export function Register() {
           setError('email', { message: '* E-mail inválido!' })
         }
       })
+      .finally(() => setIsLoading(false))
   }
 
   return (
@@ -142,6 +156,7 @@ export function Register() {
 
               <Button
                 onPress={handleSubmit(handleSignIn)}
+                isLoading={isLoading}
                 activeOpacity={0.4}
                 className="mt-8"
               >

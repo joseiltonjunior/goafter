@@ -38,21 +38,23 @@ export function ModalCustom({
   return (
     <Modal animationType="slide" transparent visible={show}>
       <View className="flex-1 bg-gray-950/80 justify-center items-center px-8">
-        <View className="bg-gray-500 w-full rounded-2xl p-4">
-          <Text className="font-bold text-white text-lg text-center">
-            {title}
-          </Text>
-          <Text className="text-gray-400 font-medium text-base mt-4 text-center">
-            {description}
-          </Text>
+        <View className="bg-gray-500 w-full rounded-2xl overflow-hidden">
+          <View className="p-4">
+            <Text className="font-bold text-white text-lg text-center">
+              {title}
+            </Text>
+            <Text className="text-gray-400 font-medium text-base mt-4 text-center">
+              {description}
+            </Text>
+          </View>
 
-          <View className="flex-row mt-8">
+          <View className="flex-row mt-4 border-t border-gray-400">
             {twoActions && (
               <>
                 <TouchableHighlight
-                  underlayColor={colors.red[800]}
+                  underlayColor={colors.gray[400]}
                   onPress={twoActions.actionCancel}
-                  className="flex-1 bg-red-600 h-12 rounded-lg items-center justify-center"
+                  className="flex-1 h-12 items-center justify-center border-r border-gray-400"
                 >
                   <Text className="text-white font-bold text-base">
                     {twoActions.textCancel}
@@ -60,9 +62,9 @@ export function ModalCustom({
                 </TouchableHighlight>
 
                 <TouchableHighlight
-                  underlayColor={colors.green[800]}
+                  underlayColor={colors.gray[400]}
                   onPress={twoActions.actionConfirm}
-                  className="flex-1 bg-green-600 h-12 rounded-lg items-center justify-center ml-2"
+                  className="flex-1 h-12 items-center justify-center"
                 >
                   <Text className="text-white font-bold text-base">
                     {twoActions.textConfirm}
