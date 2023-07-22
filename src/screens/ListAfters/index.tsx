@@ -50,6 +50,17 @@ export function ListAfters() {
       case 'Indicação':
         return setListAfters(afters.filter((item) => item.recommendation))
 
+      case 'Bares':
+        return setListAfters(afters.filter((item) => item.type === 'Bar'))
+
+      case 'Restaurantes':
+        return setListAfters(
+          afters.filter((item) => item.type === 'Restaurante'),
+        )
+
+      case 'Pubs':
+        return setListAfters(afters.filter((item) => item.type === 'Pub'))
+
       default:
         return setListAfters(afters.filter((item) => item.locale.includes(key)))
     }

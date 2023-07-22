@@ -40,17 +40,22 @@ export function Card({ name, pic, stars, onAction }: CardProps) {
                   </Text>
                 </View>
 
-                <View className="flex-row items-center justify-center bg-gray-900/70 rounded-full p-[5px]">
-                  <Icon
-                    name="heart"
-                    size={12}
-                    color={
-                      VerifyFavorite({ favorites: user.favoritesAfters, name })
-                        ? '#e3342f'
-                        : '#e2e8f0'
-                    }
-                  />
-                </View>
+                {user.uid && (
+                  <View className="flex-row items-center justify-center bg-gray-900/70 rounded-full p-[5px]">
+                    <Icon
+                      name="heart"
+                      size={12}
+                      color={
+                        VerifyFavorite({
+                          favorites: user.favoritesAfters,
+                          name,
+                        })
+                          ? '#e3342f'
+                          : '#e2e8f0'
+                      }
+                    />
+                  </View>
+                )}
               </View>
             </View>
           </ImageBackground>

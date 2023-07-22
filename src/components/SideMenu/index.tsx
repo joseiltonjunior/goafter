@@ -4,6 +4,8 @@ import {
   View,
   TouchableOpacity,
   BackHandler,
+  TouchableWithoutFeedback,
+  Linking,
 } from 'react-native'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -24,7 +26,8 @@ import NetInfo from '@react-native-community/netinfo'
 import auth from '@react-native-firebase/auth'
 
 export function SideMenu() {
-  const size = Dimensions.get('window').height + 18
+  const height = Dimensions.get('window').height + 18
+  const width = Dimensions.get('window').width
   const [exitApp, setExitApp] = useState(false)
   const [exitAccount, setExitAccount] = useState(false)
   const [connectionInternet, setConnectionInternet] = useState(true)
@@ -38,6 +41,13 @@ export function SideMenu() {
   const user = useSelector<ReduxProps, UserProps>((state) => state.user)
 
   const navigation = useNavigation<StackNavigationProps>()
+
+  const handleOpenInstagram = () => {
+    const instagramURL = 'https://www.instagram.com/co.after/'
+    Linking.openURL(instagramURL).catch((err) =>
+      console.error('Erro ao abrir o Instagram:', err),
+    )
+  }
 
   const CheckNetwork = useCallback(() => {
     NetInfo.fetch().then((state) => {
@@ -101,13 +111,14 @@ export function SideMenu() {
           },
         }}
       />
+
       <View
-        className={`absolute z-10 bg-black/70 flex-1 w-full  ${
+        className={`absolute w-full z-10 bg-black/70 flex-1  ${
           !sideMenu.isVisible && 'hidden'
         }`}
-        style={{ height: size }}
+        style={{ height }}
       >
-        <View className="bg-gray-950 h-full w-80 pt-8">
+        <View className="bg-gray-950 h-full w-80 pt-8 z-10">
           <View className="pt-12">
             <UserPic user={user} />
             {user.displayName && (
@@ -168,10 +179,19 @@ export function SideMenu() {
             />
           </View>
 
-          <TouchableOpacity className="p-4 mt-auto">
+          <TouchableOpacity
+            className="p-4 mt-auto"
+            onPress={handleOpenInstagram}
+          >
             <Text className="text-center text-xs font-bold">AFTER CO.</Text>
           </TouchableOpacity>
         </View>
+
+        <TouchableWithoutFeedback
+          onPress={() => dispatch(handleVisibleSideMenu({ isVisible: false }))}
+        >
+          <View className="absolute flex-1 w-full h-full" style={{ width }} />
+        </TouchableWithoutFeedback>
       </View>
     </>
   )

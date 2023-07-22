@@ -3,13 +3,8 @@ import { View } from 'react-native'
 import { Item } from './Item'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProps } from '@routes/routes'
-import { FavoriteProps } from '@storage/modules/afters/types'
 
-interface categoriesProps {
-  data: FavoriteProps[]
-}
-
-export function Categories({ data }: categoriesProps) {
+export function Categories() {
   const navigation = useNavigation<StackNavigationProps>()
 
   return (
@@ -21,7 +16,6 @@ export function Categories({ data }: categoriesProps) {
           onAction={() => {
             navigation.navigate('ListAfters', {
               key: 'Bares',
-              data: data.filter((item) => item.type === 'Bar'),
             })
           }}
         />
@@ -31,7 +25,6 @@ export function Categories({ data }: categoriesProps) {
           onAction={() => {
             navigation.navigate('ListAfters', {
               key: 'Restaurantes',
-              data: data.filter((item) => item.type === 'Restaurante'),
             })
           }}
         />
@@ -46,7 +39,6 @@ export function Categories({ data }: categoriesProps) {
           onAction={() => {
             navigation.navigate('ListAfters', {
               key: 'Pubs',
-              data: data.filter((item) => item.type === 'Pub'),
             })
           }}
         />

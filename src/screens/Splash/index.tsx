@@ -130,7 +130,7 @@ export function SplashScreen() {
           resizeMode="contain"
           style={{ width: size, height: size }}
         />
-        <Text className="text-gray-100 font-bold text-base">
+        <Text className="text-gray-100 font-bold text-base mb-32">
           Buscando os melhores Afters...
         </Text>
       </View>
